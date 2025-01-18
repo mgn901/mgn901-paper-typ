@@ -1,0 +1,14 @@
+{
+  "editor.wordSeparators": "./\\()\"'-:,.;<>~!@#$%^&*|+=[]{}`~?．。，、（）「」［］｛｝《》てにをはがのともへでや",
+  "editor.formatOnSave": false,
+  "editor.wordWrap": "bounded",
+  "files.associations": {
+    "*.typ": "typst"
+  },
+  "editor.wordSegmenterLocales": "ja",
+  "tinymist.configureDefaultWordSeparator": "disable",
+  "tinymist.formatterMode": "typstyle",
+  "[typst]": {
+    "editor.formatOnSave": true
+  },
+}
