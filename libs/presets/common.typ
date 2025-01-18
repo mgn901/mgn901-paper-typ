@@ -3,7 +3,7 @@
 #let font-settings-presets = (
   serif: (
     font-family: (
-      latin: ("Nimbus Roman", "Times New Roman", "Century", "New Computer Modern"),
+      latin: ("Nimbus Roman", "Times New Roman", "Century", "Libertinus Serif", "New Computer Modern"),
       cjk: (
         "Source Han Serif JP",
         "Noto Serif CJK JP",
@@ -49,7 +49,7 @@
   ),
   monospace: (
     font-family: (
-      latin: ("Courier New",),
+      latin: ("Courier New", "Dejavu Sans Mono"),
       cjk: (
         "Source Han Sans JP",
         "Noto Sans CJK JP",
