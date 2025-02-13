@@ -47,7 +47,7 @@
               #box(
                 width: 1fr,
                 height: 0em,
-                move(dy: -type-settings.line-height + type-settings.font-size * .5 + .1em)[
+                move(dy: -type-settings.line-height + type-settings.font-size * .5 + .125em)[
                   #align(alignment.end)[
                     #repeat(gap: fill_gap, justify: false)[.]
                   ]

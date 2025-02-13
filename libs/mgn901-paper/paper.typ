@@ -60,7 +60,7 @@
     show raw.where(block: true): set par(justify: false)
     show strong: font-style.with(..font-settings.strong)
     set strong(delta: 0)
-    set box(baseline: .1em)
+    set box(baseline: .125em)
 
     show: common-enum.with(marker-width: 2em)
     show: common-list.with(marker-width: 2em)

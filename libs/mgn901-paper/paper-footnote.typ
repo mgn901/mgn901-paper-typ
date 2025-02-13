@@ -17,7 +17,7 @@
   set footnote(
     numbering: n => box(
       height: 1em,
-      baseline: .1em,
+      baseline: .125em,
       text(size: .75em, numbering((..nums) => "*" + nums.pos().map(str).join("."), n)),
     ),
   )

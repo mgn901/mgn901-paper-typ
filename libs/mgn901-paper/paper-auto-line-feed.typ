@@ -1,4 +1,5 @@
 #import "../presets/thesis.typ": page-settings, type-settings
+
 #let paper-auto-line-feed(
   body,
   line-length: page-settings.line-length,

@@ -31,8 +31,8 @@
     show: text.with(
       size: font-size,
       lang: if inside-of-bibliography.get() == false { lang } else { "en" },
-      top-edge: .9em,
-      bottom-edge: -.1em,
+      top-edge: .875em,
+      bottom-edge: -.125em,
       costs: (
         widow: 0%,
         orphan: 0%,
@@ -63,8 +63,8 @@
     show: text.with(
       size: font-size,
       lang: if inside-of-bibliography.get() == false { lang } else { "en" },
-      top-edge: .9em,
-      bottom-edge: -.1em,
+      top-edge: .875em,
+      bottom-edge: -.125em,
       costs: (
         widow: 0%,
         orphan: 0%,
