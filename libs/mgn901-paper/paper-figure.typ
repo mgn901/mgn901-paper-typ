@@ -1,8 +1,9 @@
+#import "../presets/thesis.typ": font-settings, type-settings
+#import "mpl.typ": create-mpl
 #import "paper-auto-line-feed.typ": paper-auto-line-feed
 #import "utils.typ": q
-#import "font-style.typ": font-style
-#import "../presets/thesis.typ": font-settings, type-settings
-#import "type-style.typ": type-style
+
+#let mpl = create-mpl(font-settings: font-settings, type-settings: type-settings)
 
 #let paper-figure(
   body,
@@ -10,22 +11,21 @@
   column-gap: 3em,
   line-length: 36,
   default-type-settings: type-settings.default,
-  footnote-type-settings: type-settings.footnote,
-  strong-font-settings: font-settings.strong,
-  footnote-font-settings: font-settings.footnote,
+  type-footnote: mpl.type-footnote,
+  font-footnote: mpl.font-footnote,
+  font-strong: mpl.font-strong,
 ) = {
   show figure.caption: it => {
-    show: type-style.with(..footnote-type-settings)
-    show: font-style.with(..footnote-font-settings)
-    context {
-      grid(
-        columns: (auto, auto),
-        rows: 1,
-        gutter: 1em,
-        font-style(..strong-font-settings, [#it.supplement #numbering(it.numbering, ..it.counter.get())]),
-        align(alignment.start, it.body),
-      )
-    }
+    type-footnote(
+      font-footnote(context {
+        grid(
+          columns: (auto, auto),
+          rows: 1,
+          gutter: 1em,
+          font-strong[#it.supplement #numbering(it.numbering, ..it.counter.get())], align(alignment.start, it.body),
+        )
+      }),
+    )
   }
 
   show figure: it => {
@@ -34,13 +34,9 @@
       let spacer = v(line-spacing, weak: true)
 
       let original-content = [
-        #if it.kind == table {
-          type-style(..footnote-type-settings, [#it.caption#spacer])
-        }
+        #if it.kind == table { type-footnote[#it.caption#spacer] }
         #it.body
-        #if it.kind != table {
-          type-style(..footnote-type-settings, [#spacer#it.caption])
-        }
+        #if it.kind != table { type-footnote[#spacer#it.caption] }
       ]
 
       let content = paper-auto-line-feed(

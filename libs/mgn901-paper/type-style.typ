@@ -7,7 +7,7 @@
   font-size: q(16),
   line-height: q(28),
   lang: "ja",
-  first-line-indent: 1em,
+  first-line-indent: 0em,
   justify: true,
   hanging-indent: 0em,
   linebreaks: "optimized",

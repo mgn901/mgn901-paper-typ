@@ -1,5 +1,5 @@
-#import "paper-auto-line-feed.typ": paper-auto-line-feed
 #import "../presets/thesis.typ": page-settings, type-settings
+#import "paper-auto-line-feed.typ": paper-auto-line-feed
 
 #let paper-math(
   body,
