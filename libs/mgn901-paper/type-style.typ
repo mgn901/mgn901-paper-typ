@@ -7,7 +7,7 @@
   font-size: q(16),
   line-height: q(28),
   lang: "ja",
-  first-line-indent: 1em,
+  first-line-indent: 0em,
   justify: true,
   hanging-indent: 0em,
   linebreaks: "optimized",
@@ -31,8 +31,8 @@
     show: text.with(
       size: font-size,
       lang: if inside-of-bibliography.get() == false { lang } else { "en" },
-      top-edge: .9em,
-      bottom-edge: -.1em,
+      top-edge: .875em,
+      bottom-edge: -.125em,
       costs: (
         widow: 0%,
         orphan: 0%,
@@ -63,8 +63,8 @@
     show: text.with(
       size: font-size,
       lang: if inside-of-bibliography.get() == false { lang } else { "en" },
-      top-edge: .9em,
-      bottom-edge: -.1em,
+      top-edge: .875em,
+      bottom-edge: -.125em,
       costs: (
         widow: 0%,
         orphan: 0%,

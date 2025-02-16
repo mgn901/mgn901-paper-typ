@@ -14,6 +14,7 @@
   default: (
     font-size: q(16),
     line-height: q(28),
+    first-line-indent: 1em,
   ),
   footnote: (
     font-size: q(14),
@@ -45,6 +46,8 @@
   (
     font-size: q(20),
     line-height: q(28),
+    first-line-indent: 0em,
+    justify: false,
     spacing-par: q(28),
     spacing-heading: 0em,
     line-feeding: 2,
@@ -54,6 +57,8 @@
   (
     font-size: q(18),
     line-height: q(28),
+    first-line-indent: 0em,
+    justify: false,
     spacing-par: q(28),
     spacing-heading: 0em,
     line-feeding: 1,
@@ -63,6 +68,8 @@
   (
     font-size: q(16),
     line-height: q(28),
+    first-line-indent: 0em,
+    justify: false,
     spacing-par: q(28),
     spacing-heading: 0em,
     line-feeding: 1,
@@ -72,6 +79,8 @@
   (
     font-size: q(16),
     line-height: q(28),
+    first-line-indent: 0em,
+    justify: false,
     spacing-par: q(28),
     spacing-heading: 0em,
     line-feeding: 1,
@@ -81,6 +90,8 @@
   (
     font-size: q(16),
     line-height: q(28),
+    first-line-indent: 0em,
+    justify: false,
     spacing-par: q(28),
     spacing-heading: 0em,
     line-feeding: 1,

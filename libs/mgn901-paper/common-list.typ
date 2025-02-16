@@ -1,4 +1,4 @@
-#import "../mgn901-paper/utils.typ": marker, q
+#import "../mgn901-paper/utils.typ": marker
 
 #let common-list(
   body,
