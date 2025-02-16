@@ -6,14 +6,24 @@
   ),
   font-weight: 400,
   font-features: (:),
-  color: black,
+  color: auto,
 ) = {
-  set text(
-    font: (..font-family.latin, ..font-family.cjk),
-    weight: font-weight,
-    features: font-features,
-    fill: color,
-  )
+  if color == auto {
+    set text(
+      font: (..font-family.latin, ..font-family.cjk),
+      weight: font-weight,
+      features: font-features,
+    )
 
-  body
+    body
+  } else {
+    set text(
+      font: (..font-family.latin, ..font-family.cjk),
+      weight: font-weight,
+      features: font-features,
+      fill: color,
+    )
+
+    body
+  }
 }

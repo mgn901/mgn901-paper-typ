@@ -1,0 +1,208 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<style class="in-text" version="1.0" demote-non-dropping-particle="never" default-locale="en-US"
+  xmlns="http://purl.org/net/xbiblio/csl">
+  <!-- This style was edited with the Visual CSL Editor
+  (https://editor.citationstyles.org/visualEditor/) -->
+  <info>
+    <title>ISPJ</title>
+    <id>enter-unique-style-id-here</id>
+    <updated>2025-01-12T17:12:05+00:00</updated>
+  </info>
+  <locale xml:lang="ja">
+    <terms>
+      <term name="author" form="short">著</term>
+      <term name="available at" form="short">入手先</term>
+      <term name="online" form="short">オンライン</term>
+      <term name="volume" form="short">Vol.</term>
+      <term name="issue" form="short">No.</term>
+    </terms>
+  </locale>
+  <macro name="book-editors">
+    <names variable="editor">
+      <name initialize-with="." name-as-sort-order="all" />
+      <label form="short" prefix=" (" suffix=")" />
+    </names>
+  </macro>
+  <macro name="authors">
+    <choose>
+      <if match="any" variable="translator">
+        <names variable="author">
+          <name initialize-with="." name-as-sort-order="all" />
+          <label form="short" prefix=" (" suffix=")" />
+        </names>
+      </if>
+      <else>
+        <names variable="author">
+          <name initialize-with="." name-as-sort-order="all" />
+        </names>
+      </else>
+    </choose>
+  </macro>
+  <macro name="title">
+    <text variable="title" />
+    <choose>
+      <if match="any" variable="translator" />
+    </choose>
+  </macro>
+  <macro name="container">
+    <group delimiter=", ">
+      <text variable="container-title" font-style="italic" />
+      <group>
+        <group delimiter=", ">
+          <group>
+            <label variable="volume" form="short" text-case="title" suffix=" " />
+            <text variable="volume" />
+          </group>
+          <group>
+            <label variable="issue" form="short" text-case="title" suffix=" " />
+            <text variable="issue" />
+          </group>
+          <group>
+            <label variable="page" form="short" suffix=" " plural="never" />
+            <text variable="page" />
+          </group>
+          <group>
+            <text variable="publisher" />
+          </group>
+        </group>
+        <!-- <choose>
+          <if match="any" variable="DOI">
+            <text term="online" form="short" prefix=" (" suffix=")" />
+          </if>
+        </choose> -->
+      </group>
+      <!-- <group>
+        <text value="DOI" suffix=": " />
+        <text variable="DOI" />
+      </group> -->
+    </group>
+  </macro>
+  <macro name="book-translators">
+    <names variable="translator">
+      <name />
+      <label form="short" prefix=" (" suffix=")" />
+    </names>
+  </macro>
+  <macro name="year">
+    <date date-parts="year" variable="issued">
+      <date-part name="year" />
+    </date>
+  </macro>
+  <macro name="book-title">
+    <text variable="container-title" />
+  </macro>
+  <macro name="publisher">
+    <group>
+      <text variable="publisher" />
+      <choose>
+        <if type="webpage" match="any">
+          <text term="online" form="short" prefix=" (" suffix=")" />
+        </if>
+      </choose>
+    </group>
+  </macro>
+  <macro name="book-locator">
+    <group>
+      <text term="page" form="short" suffix=" " plural="never" />
+      <text variable="page" />
+    </group>
+  </macro>
+  <macro name="webpage-url">
+    <group delimiter=" ">
+      <group delimiter=", ">
+        <group>
+          <text term="available at" form="short" suffix=" " />
+          <text variable="URL" prefix="&lt;" suffix="&gt;" />
+        </group>
+      </group>
+      <group delimiter=" " prefix="(" suffix=")">
+        <text term="accessed" />
+        <date delimiter="-" variable="accessed">
+          <date-part name="year" form="numeric-leading-zeros" />
+          <date-part name="month" form="numeric-leading-zeros" />
+          <date-part name="day" form="numeric-leading-zeros" />
+        </date>
+      </group>
+    </group>
+  </macro>
+  <citation>
+    <sort>
+      <key variable="citation-number" />
+    </sort>
+    <layout delimiter=", ">
+      <text variable="citation-number" prefix="[" suffix="]" />
+    </layout>
+  </citation>
+  <bibliography second-field-align="flush" entry-spacing="0">
+    <sort>
+      <key variable="citation-number" />
+    </sort>
+    <layout suffix=".">
+      <!-- <text variable="citation-number" prefix="[" suffix="]" /> -->
+      <choose>
+        <if type="book" match="all" variable="translator">
+          <text macro="authors" suffix=", " />
+          <text macro="book-translators" suffix=": " />
+          <group delimiter=", ">
+            <text macro="title" />
+            <text macro="book-locator" />
+            <text macro="publisher" />
+          </group>
+        </if>
+        <else-if type="book" match="any">
+          <text macro="authors" suffix=": " />
+          <group delimiter=", ">
+            <text macro="title" />
+            <text macro="book-locator" />
+            <text macro="publisher" />
+          </group>
+        </else-if>
+        <else-if type="chapter" match="any">
+          <text macro="book-editors" suffix=": " />
+          <text macro="book-title" font-style="normal" suffix=", " />
+          <text macro="authors" suffix=": " />
+          <group delimiter=", ">
+            <text macro="title" font-style="italic" />
+            <text macro="book-locator" />
+            <text macro="publisher" />
+          </group>
+        </else-if>
+        <else-if type="paper-conference" match="any">
+          <text macro="authors" suffix=": " />
+          <group delimiter=", ">
+            <text macro="title" />
+            <group>
+              <text value="Proc. " font-style="italic" />
+              <text macro="container" />
+            </group>
+          </group>
+        </else-if>
+        <else-if type="webpage" match="any">
+          <text macro="authors" suffix=": " />
+          <group delimiter=", ">
+            <text macro="title" />
+            <text macro="publisher" />
+            <text macro="webpage-url" />
+          </group>
+        </else-if>
+        <else-if type="thesis" match="any">
+          <text macro="authors" suffix=": " />
+          <group delimiter=", ">
+            <text macro="title" />
+            <text value="PhD Thesis" />
+            <text macro="publisher" />
+          </group>
+        </else-if>
+        <else>
+          <text macro="authors" suffix=": " />
+          <group delimiter=", ">
+            <text macro="title" />
+            <text macro="container" />
+          </group>
+        </else>
+      </choose>
+      <text macro="year" prefix=" (" suffix=")" />
+      <text value=". " />
+    </layout>
+  </bibliography>
+</style>

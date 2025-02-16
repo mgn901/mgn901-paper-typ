@@ -14,6 +14,7 @@
   type-footnote: mpl.type-footnote,
   font-footnote: mpl.font-footnote,
   font-strong: mpl.font-strong,
+  auto-line-feed: true,
 ) = {
   show figure.caption: it => {
     type-footnote(
@@ -39,14 +40,18 @@
         #if it.kind != table { type-footnote[#spacer#it.caption] }
       ]
 
-      let content = paper-auto-line-feed(
-        column-numbers: column-numbers,
-        column-gap: column-gap,
-        line-length: line-length,
-        type-settings: default-type-settings,
-        scope: it.scope,
-        original-content,
-      )
+      let content = if auto-line-feed == true {
+        paper-auto-line-feed(
+          column-numbers: column-numbers,
+          column-gap: column-gap,
+          line-length: line-length,
+          type-settings: default-type-settings,
+          scope: it.scope,
+          original-content,
+        )
+      } else {
+        original-content
+      }
 
       if it.placement == alignment.top or it.placement == alignment.bottom {
         place(

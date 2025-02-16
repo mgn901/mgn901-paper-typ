@@ -108,7 +108,7 @@
     </group>
   </macro>
   <macro name="webpage-url">
-    <group delimiter=" ">
+    <group delimiter="">
       <group delimiter=", ">
         <group>
           <text term="available at" form="short" suffix=" " />
@@ -118,9 +118,9 @@
       <group delimiter=" " prefix="(" suffix=")">
         <text term="accessed" />
         <date delimiter="-" variable="accessed">
-          <date-part name="year" />
-          <date-part name="month" form="numeric" />
-          <date-part name="day" />
+          <date-part name="year" form="numeric-leading-zeros" />
+          <date-part name="month" form="numeric-leading-zeros" />
+          <date-part name="day" form="numeric-leading-zeros" />
         </date>
       </group>
     </group>

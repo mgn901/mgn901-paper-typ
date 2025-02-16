@@ -7,16 +7,21 @@
   line-length: page-settings.line-length,
   column-numbers: page-settings.column-numbers,
   column-gap: page-settings.column-gap,
+  auto-line-feed: true,
 ) = {
   show math.equation.where(block: true): it => {
-    paper-auto-line-feed(
-      it,
-      type-settings: type-settings,
-      scope: "column",
-      line-length: line-length,
-      column-numbers: column-numbers,
-      column-gap: column-gap,
-    )
+    if auto-line-feed == true {
+      paper-auto-line-feed(
+        it,
+        type-settings: type-settings,
+        scope: "column",
+        line-length: line-length,
+        column-numbers: column-numbers,
+        column-gap: column-gap,
+      )
+    } else {
+      it
+    }
   }
 
   body

@@ -118,9 +118,9 @@
       <group delimiter=" " prefix="(" suffix=")">
         <text term="accessed" />
         <date delimiter="-" variable="accessed">
-          <date-part name="year" />
-          <date-part name="month" form="numeric" />
-          <date-part name="day" />
+          <date-part name="year" form="numeric-leading-zeros" />
+          <date-part name="month" form="numeric-leading-zeros" />
+          <date-part name="day" form="numeric-leading-zeros" />
         </date>
       </group>
     </group>
