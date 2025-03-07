@@ -15,17 +15,11 @@
   set par(
     leading: line-height - font-size,
     spacing: line-height - font-size,
-    first-line-indent: first-line-indent,
+    first-line-indent: (all: true, amount: first-line-indent),
     justify: justify,
     hanging-indent: hanging-indent,
     linebreaks: "optimized",
   )
-
-  show selector(figure).or(heading).or(list).or(enum).or(terms): it => {
-    it
-    v(font-size - line-height)
-    h(first-line-indent, weak: true)
-  }
 
   context {
     show: text.with(
@@ -53,12 +47,6 @@
   hanging-indent: 0em,
   linebreaks: "optimized",
 ) = {
-  show selector(figure).or(heading).or(list).or(enum).or(terms): it => {
-    it
-    v(font-size - line-height)
-    h(first-line-indent, weak: true)
-  }
-
   context {
     show: text.with(
       size: font-size,
