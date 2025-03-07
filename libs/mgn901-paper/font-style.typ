@@ -10,7 +10,8 @@
 ) = {
   if color == auto {
     set text(
-      font: (..font-family.latin, ..font-family.cjk),
+      font: (..font-family.latin.map(item => { (name: item, covers: "latin-in-cjk") }), ..font-family.cjk),
+      // font: (..font-family.latin, ..font-family.cjk),
       weight: font-weight,
       features: font-features,
     )
