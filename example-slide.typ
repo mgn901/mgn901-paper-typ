@@ -78,7 +78,7 @@
       fill: white,
       stroke: none,
       radius: (type-settings.default.line-height - type-settings.default.font-size) * 1.5,
-    )[#image(width: 100%, "./example-article.svg")]
+    )[#image(width: 100%, "./figures/example-article.svg")]
   ],
   (mpl-bubble.block-strong)(height: 100%)[
     3. #(mpl.itype-small)[読みやすく美しい\ 紙面や画面の作成に役立つ]\ #(mpl.font-heading)[充実した\ 機能、関数]
