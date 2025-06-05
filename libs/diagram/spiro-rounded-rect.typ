@@ -78,68 +78,62 @@
   }
 }
 
-#let reverse-if-needed(array, corner) = {
-  if corner == "tl" or corner == "br" { array.rev() } else { array }
-}
-
-#let spiro-rounded-corner-vertices(
-  corner: "tl",
-  width: line-spacing * 4,
-  height: line-spacing * 4,
+#let spiro-rounded-rect-vertices(
   radius: line-spacing * 2,
+  offset-x: 0pt,
+  offset-y: 0pt,
+  direction-x: 1,
+  direction-y: 1,
 ) = {
-  let (factor_cnt_x, factor_cnt_y) = (
-    tl: (-1, 1),
-    tr: (-1, -1),
-    br: (1, -1),
-    bl: (1, 1),
-  ).at(corner)
-
-  let (factor_vrt_x, factor_vrt_y) = (
-    tl: (1, 1),
-    tr: (-1, 1),
-    br: (-1, -1),
-    bl: (1, -1),
-  ).at(corner)
-
-  let (dx, dy) = (
-    tl: (0%, 0%),
-    tr: (width, 0%),
-    br: (width, height),
-    bl: (0%, height),
-  ).at(corner)
-
-  return reverse-if-needed(
-    (
-      ((dx + radius * factor_vrt_x, dy),),
-      (
-        (dx + 0.589518233 * radius * factor_vrt_x, dy + 0.03531901 * radius * factor_vrt_y),
-        (0.133581259 * radius * factor_cnt_x, 0.033460363 * radius * factor_cnt_y),
-      ),
-      (
-        (dx + 0.23209635 * radius * factor_vrt_x, dy + 0.23209635 * radius * factor_vrt_y),
-        (0.097374408 * radius * factor_cnt_x, 0.097374408 * radius * factor_cnt_y),
-      ),
-      (
-        (dx + 0.03531901 * radius * factor_vrt_x, dy + 0.589518233 * radius * factor_vrt_y),
-        (0.033460363 * radius * factor_cnt_x, 0.133581259 * radius * factor_cnt_y),
-      ),
-      ((dx, dy + radius * factor_vrt_y),),
-    ),
-    corner,
+  return (
+    (1 * radius * direction-x + offset-x, 0 * radius * direction-y + offset-y),
+    (.86229169 * radius * direction-x + offset-x, 0 * radius * direction-y + offset-y),
+    (.72310817 * radius * direction-x + offset-x, .001871757 * radius * direction-y + offset-y),
+    (.58952678 * radius * direction-x + offset-x, .035332154 * radius * direction-y + offset-y),
+    (.45594539 * radius * direction-x + offset-x, .068792552 * radius * direction-y + offset-y),
+    (.32942907 * radius * direction-x + offset-x, .13468007 * radius * direction-y + offset-y),
+    (.23205457 * radius * direction-x + offset-x, .23205457 * radius * direction-y + offset-y),
+    (.13468007 * radius * direction-x + offset-x, .32942907 * radius * direction-y + offset-y),
+    (.068792552 * radius * direction-x + offset-x, .45594539 * radius * direction-y + offset-y),
+    (.035332154 * radius * direction-x + offset-x, .58952678 * radius * direction-y + offset-y),
+    (.001871757 * radius * direction-x + offset-x, .72310817 * radius * direction-y + offset-y),
+    (0 * radius * direction-x + offset-x, .86229169 * radius * direction-y + offset-y),
+    (0 * radius * direction-x + offset-x, 1 * radius * direction-y + offset-y),
   )
 }
 
-#let spiro-rounded-rect-vertices(
+#let spiro-rounded-corner-components(
+  vertices: (),
+) = {
+  return (
+    curve.cubic(vertices.at(1), vertices.at(2), vertices.at(3)),
+    curve.cubic(vertices.at(4), vertices.at(5), vertices.at(6)),
+    curve.cubic(vertices.at(7), vertices.at(8), vertices.at(9)),
+    curve.cubic(vertices.at(10), vertices.at(11), vertices.at(12)),
+  )
+}
+
+#let spiro-rounded-rect-components(
   width: line-spacing * 4,
   height: line-spacing * 4,
   radius: line-spacing * 2,
 ) = {
-  (
-    ..spiro-rounded-corner-vertices(corner: "tl", width: width, height: height, radius: to-radius(radius).top-left),
-    ..spiro-rounded-corner-vertices(corner: "tr", width: width, height: height, radius: to-radius(radius).top-right),
-    ..spiro-rounded-corner-vertices(corner: "br", width: width, height: height, radius: to-radius(radius).bottom-right),
-    ..spiro-rounded-corner-vertices(corner: "bl", width: width, height: height, radius: to-radius(radius).bottom-left),
+  let vertices = spiro-rounded-rect-vertices.with(radius: radius)
+  let tl = vertices(offset-x: 0em, offset-y: 0em, direction-x: 1, direction-y: 1)
+  let bl = vertices(offset-x: 0em, offset-y: height, direction-x: 1, direction-y: -1).rev()
+  let br = vertices(offset-x: width, offset-y: height, direction-x: -1, direction-y: -1)
+  let tr = vertices(offset-x: width, offset-y: 0em, direction-x: -1, direction-y: 1).rev()
+
+  return (
+    curve.move(tl.at(0)),
+    ..spiro-rounded-corner-components(vertices: tl),
+    curve.line(bl.at(0)),
+    ..spiro-rounded-corner-components(vertices: bl),
+    curve.line(br.at(0)),
+    ..spiro-rounded-corner-components(vertices: br),
+    curve.line(tr.at(0)),
+    ..spiro-rounded-corner-components(vertices: tr),
+    curve.close(mode: "straight"),
   )
 }
 
@@ -156,7 +150,7 @@
   layout(size => {
     let measurement = measure(
       body,
-      width: size.width,
+      width: size.width - to-inset(inset).left - to-inset(inset).right,
       height: size.height,
     )
 
@@ -190,15 +184,14 @@
         alignment.top + alignment.left,
         dx: to-inset(outset).left * -1,
         dy: to-inset(outset).top * -1,
-        path(
+        curve(
           fill: fill,
           stroke: stroke,
-          ..spiro-rounded-rect-vertices(
+          ..spiro-rounded-rect-components(
             width: calculated-width,
             height: calculated-height,
             radius: radius,
           ),
-          closed: true,
         ),
       )
       #block(
