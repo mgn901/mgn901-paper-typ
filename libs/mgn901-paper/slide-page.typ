@@ -22,7 +22,10 @@
   default-type-settings: type-settings.default,
   running-head-title-type-settings: type-settings.footnote,
   running-head-type-settings: type-settings.bibliography,
+  running-head-default-font-settings: font-settings.default,
+  running-head-strong-font-settings: font-settings.strong,
   bibliography-type-settings: type-settings.small,
+  bibliography-font-settings: font-settings.default,
   nombre: true,
 ) = {
   show: common-page.with(
@@ -91,7 +94,11 @@
                         radius: type-settings.bibliography.line-height / 2,
                         stroke: none,
                         fill: color-presets.red.at(3),
-                        font-style(..font-settings.strong, color: color-presets.red.at(8), item.at(1).at("abbr")),
+                        font-style(
+                          ..running-head-strong-font-settings,
+                          color: color-presets.red.at(8),
+                          item.at(1).at("abbr"),
+                        ),
                       )
                     } else {
                       spiro-rounded-rect(
@@ -101,11 +108,15 @@
                         radius: type-settings.bibliography.line-height / 2,
                         stroke: none,
                         fill: color-presets.red.at(2),
-                        font-style(..font-settings.default, color: color-presets.red.at(8), item.at(1).at("abbr")),
+                        font-style(
+                          ..running-head-default-font-settings,
+                          color: color-presets.red.at(8),
+                          item.at(1).at("abbr"),
+                        ),
                       )
                     }
                   })
-                  .intersperse(font-style(..font-settings.default, color: color-presets.red.at(3), [▼])),
+                  .intersperse(font-style(..running-head-default-font-settings, color: color-presets.red.at(3), [▼])),
               )
             },
           ),
@@ -126,7 +137,11 @@
           [],
           type-style(
             ..type-settings.small,
-            font-style(..font-settings.default, color: color-presets.red.at(8), numbering("1", ..counter(page).get())),
+            font-style(
+              ..bibliography-font-settings,
+              color: color-presets.red.at(8),
+              numbering("1", ..counter(page).get()),
+            ),
           ),
         ),
       )
