@@ -41,7 +41,7 @@
         }
         #block(breakable: false, sticky: true, width: 100%)[
           #let new-label-width = if label-width == auto { it.level * 1em } else { label-width }
-          #let centerize = heading-type-settings.font-size - default-type-settings.font-size + .0625em
+          #let centerize = heading-type-settings.font-size - default-type-settings.font-size
           #let line-feeding-height = (heading-type-settings.line-feeding - 1) * heading-type-settings.line-height
           #v((
             default-type-settings.font-size - heading-type-settings.font-size

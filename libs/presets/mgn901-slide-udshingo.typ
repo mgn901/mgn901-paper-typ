@@ -1,4 +1,5 @@
 #import "../mgn901-paper/utils.typ": q
+#import "common.typ": color-presets
 
 #let page-settings = (
   width: 451.56mm,
@@ -22,6 +23,10 @@
   small: (
     font-size: q(32),
     line-height: q(38),
+  ),
+  bibliography: (
+    font-size: q(24),
+    line-height: q(28),
   ),
   monospace: (
     font-size: 1em / 0.8,
@@ -119,7 +124,7 @@
 )
 
 #let font-settings = (
-  default: font-settings-presets.serif,
+  default: (..font-settings-presets.serif, color: color-presets.gray1.at(8)),
   heading: font-settings-presets.heading,
   footnote: font-settings-presets.serif,
   small: font-settings-presets.serif,

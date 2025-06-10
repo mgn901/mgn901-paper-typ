@@ -1,11 +1,5 @@
 #import "../presets/common.typ": color-presets
-#import "../presets/slide.typ": (
-  font-settings,
-  font-settings,
-  page-settings,
-  type-settings,
-  heading-type-settings,
-)
+#import "../presets/slide.typ": font-settings, font-settings, page-settings, type-settings, heading-type-settings
 #import "common-perpage-bibliography.typ": common-perpage-bibliography
 #import "common-enum.typ": common-enum
 #import "common-list.typ": common-list
@@ -74,6 +68,13 @@
       ..page-settings,
       line-height: type-settings.default.line-height,
       font-size: type-settings.default.font-size,
+      default-type-settings: type-settings.default,
+      running-head-title-type-settings: type-settings.footnote,
+      running-head-type-settings: type-settings.bibliography,
+      bibliography-type-settings: type-settings.small,
+      running-head-default-font-settings: font-settings.default,
+      running-head-strong-font-settings: font-settings.strong,
+      bibliography-font-settings: font-settings.default,
       nombre: false,
     )
     show: common-perpage-bibliography.with()
