@@ -39,14 +39,14 @@
           [
             #type-style(..title-type-settings, justify: false, font-style(..title-font-settings, title))
 
-            #v(line-spacing * 1.5, weak: true)
+            #v(line-spacing * 1.25, weak: true)
 
             #type-style(..subtitle-type-settings, justify: false, font-style(..subtitle-font-settings, subtitle))
 
             #show: type-style.with(..author-type-settings, justify: false)
             #show: font-style.with(..author-font-settings)
 
-            #v(line-spacing * 1.5, weak: true)
+            #v(line-spacing * 1.25, weak: true)
 
             #author
 
