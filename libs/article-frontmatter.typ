@@ -1,56 +1,43 @@
 #import "mgn901-paper/paper-auto-line-feed.typ": paper-auto-line-feed
-#import "mgn901-paper/type-style.typ": type-style
-#import "mgn901-paper/font-style.typ": font-style
-#import "presets/article.typ": font-settings, page-settings, type-settings
+#import "mgn901-paper/utils.typ": q
 
 #let article-frontmatter(
   title: "表題",
   subtitle: "副題",
   author: "著者氏名",
   date: "日付",
-  line-length: page-settings.line-length,
-  column-numbers: page-settings.column-numbers,
-  column-gap: page-settings.column-gap,
-  title-font-settings: font-settings.heading,
-  title-type-settings: type-settings.frontmatter-title,
-  subtitle-font-settings: font-settings.default,
-  subtitle-type-settings: type-settings.frontmatter-default,
-  author-font-settings: font-settings.default,
-  author-type-settings: type-settings.frontmatter-default,
-  default-type-settings: type-settings.default,
+  text-base-token: (text-size: q(13), line-spacing: q(20 - 13)),
+  title-styler: it => it,
+  subtitle-styler: it => it,
+  author-styler: it => it,
 ) = {
-  let line-spacing = default-type-settings.line-height - default-type-settings.font-size
-
   place(
     alignment.top,
-    clearance: line-spacing,
+    clearance: text-base-token.line-spacing,
     float: true,
     scope: "parent",
     paper-auto-line-feed(
-      type-settings: default-type-settings,
-      line-length: line-length,
-      column-numbers: column-numbers,
-      column-gap: column-gap,
+      line-spacing: text-base-token.line-spacing,
+      text-size: text-base-token.text-size,
       scope: "parent",
       align(
         alignment.center,
         block(
           width: 100%,
           [
-            #type-style(..title-type-settings, justify: false, font-style(..title-font-settings, title))
+            #title-styler[#title]
+            #v(text-base-token.line-spacing, weak: true)
+            #subtitle-styler[#subtitle]
 
-            #v(line-spacing * 1.25, weak: true)
+            #show: author-styler.with()
 
-            #type-style(..subtitle-type-settings, justify: false, font-style(..subtitle-font-settings, subtitle))
-
-            #show: type-style.with(..author-type-settings, justify: false)
-            #show: font-style.with(..author-font-settings)
-
-            #v(line-spacing * 1.25, weak: true)
+            #v(text-base-token.line-spacing, weak: true)
 
             #author
-
+            #v(-text-base-token.line-spacing / 2, weak: false)
             #date
+
+            #v((text-base-token.line-spacing + text-base-token.text-size) / 2)
           ],
         ),
       ),

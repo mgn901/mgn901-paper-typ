@@ -8,19 +8,19 @@
   column-gap: 3em,
   line-length: 36,
   line-numbers: 32,
-  line-height: q(30),
-  font-size: q(17),
+  line-spacing: q(28 - 16),
+  text-size: q(16),
   nombre: true,
 ) = {
   let translate-for-nombre = if nombre == true { 1 } else { 0 }
-  let line-spacing = line-height - font-size
+  let line-height = line-spacing + text-size
 
   set page(
     width: width,
     height: height,
     columns: column-numbers,
     margin: (
-      x: (width - font-size * line-length * column-numbers - (column-gap * (column-numbers - 1))) / 2,
+      x: (width - text-size * line-length * column-numbers - (column-gap * (column-numbers - 1))) / 2,
       top: (height - (line-height * (line-numbers + translate-for-nombre) - line-spacing)) / 2,
       bottom: (height - (line-height * (line-numbers - translate-for-nombre) - line-spacing)) / 2,
     ),

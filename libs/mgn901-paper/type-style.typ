@@ -1,6 +1,5 @@
 #import "../mgn901-paper/utils.typ": *
 #import "font-style.typ": *
-#import "state.typ": inside-of-bibliography
 
 #let type-style(
   body,
@@ -22,9 +21,15 @@
   )
 
   context {
+    let inside-of-bibliography = (
+      () => {
+        let query-results = query(selector(<mgn901-paper.inside-of-bibliography>).before(here()))
+        if query-results.len() == 0 { false } else { query-results.last().value }
+      }
+    )()
     show: text.with(
       size: font-size,
-      lang: if inside-of-bibliography.get() == false { lang } else { "en" },
+      lang: if inside-of-bibliography == false { lang } else { "en" },
       top-edge: .875em,
       bottom-edge: -.125em,
       costs: (

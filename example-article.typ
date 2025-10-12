@@ -1,33 +1,18 @@
 #import "@preview/metalogo:1.2.0": *
 #import "@preview/roremu:0.1.0": roremu
 #import "libs/mgn901-paper/paper.typ": paper
-#import "libs/mgn901-paper/type-style.typ": type-style
-#import "libs/presets/article.typ": (
-  heading-type-settings,
-  font-settings,
-  page-settings,
-  type-settings,
-)
+#import "libs/mgn901-paper/style.typ": style
+#import "libs/presets/article.typ": heading-token-params, page-settings, style-tokens as s
+#import "libs/thesis-abstract.typ": thesis-abstract
 #import "libs/article-frontmatter.typ": article-frontmatter
-#import "libs/thesis-cover.typ": thesis-cover
-#import "libs/thesis-outline.typ": thesis-outline
 
 // テンプレートの設定
 
 #show: paper.with(
   document-settings: (lang: "ja"),
   page-settings: page-settings,
-  font-settings: font-settings,
-  type-settings: type-settings,
-  heading-type-settings: heading-type-settings,
-  heading-font-settings: (font-settings.heading,),
-  heading-settings: (
-    (label-width: 1em, numbering: "1.1.", break-before: false),
-    (label-width: 2em, numbering: "1.1.", break-before: false),
-    (label-width: 3em, numbering: "1.1.", break-before: false),
-    (label-width: 4em, numbering: "1.1.", break-before: false),
-    (label-width: 5em, numbering: "1.1.", break-before: false),
-  ),
+  style-tokens: s,
+  heading-tokens-params: heading-token-params,
 )
 
 #show raw.where(block: true): it => {
@@ -44,26 +29,21 @@
   subtitle: "副題",
   author: "著者氏名",
   date: "日付",
-  line-length: page-settings.line-length,
-  column-numbers: page-settings.column-numbers,
-  column-gap: page-settings.column-gap,
-  title-type-settings: type-settings.frontmatter-title,
-  subtitle-type-settings: type-settings.frontmatter-default,
-  author-type-settings: type-settings.frontmatter-default,
-  default-type-settings: type-settings.default,
+  title-styler: style.with((s.text-no-justify, s.text-4xl, s.font-sans, s.font-bold)),
+  subtitle-styler: style.with((s.text-no-justify, s.text-2xl)),
+  author-styler: style.with((s.text-no-justify, s.text-lg)),
+  text-base-token: s.text-base,
 )
 
 // 前付け 終わり
 
 // 論文要旨
 
-#heading([論文要旨], numbering: none)
-
-#roremu(200)
-
-#heading([Abstract], numbering: none)
-
-#lorem(75)
+#thesis-abstract(
+  (lang: "ja", heading: [論文要旨], body: roremu(200)),
+  (lang: "en", heading: [Abstract], body: lorem(75)),
+  set-page: false,
+)
 
 // テンプレートの設定 終わり
 
@@ -71,7 +51,7 @@
 
 = はじめに
 
-本稿では、組版エンジン「Typst」，および，レポート・論文組版向けTypstテンプレート「mgn901-paper-typ」の使用方法を紹介します．
+本稿では，組版エンジン「Typst」，および，レポート・論文組版向けTypstテンプレート「mgn901-paper-typ」の使用方法を紹介します．
 
 = Typstとは
 
@@ -85,17 +65,17 @@ Typst @typst:index は，レポートや論文の組版に用いられること�
 
 Wordなどのワープロソフトは，Typstや#[#LaTeX]のような組版エンジンとは異なりますが，コンピュータ上で組版を行えるソフトウェアであるという点では同じです．ワープロソフトを使って組版する場合は，文書ファイルの作成や編集をワープロソフトの画面上で行い，作成した文書ファイルをPDFに変換して出力したり，プリンタに印刷させたりすることができます．
 
-*ワープロソフトの長所*#h(1em)ワープロソフトでは，マウス操作などによって画面上で直観的に文書ファイルを編集することができますが，文書ファイルの編集には，その文書ファイルに対応しているワープロソフトが必要です．Typstが行うのは組版処理だけなので，画面上での直観的な編集はできません．
+*ワープロソフトの長所*#h(1em, weak: true)ワープロソフトでは，マウス操作などによって画面上で直観的に文書ファイルを編集することができますが，文書ファイルの編集には，その文書ファイルに対応しているワープロソフトが必要です．Typstが行うのは組版処理だけなので，画面上での直観的な編集はできません．
 
-*Typstの長所*#h(1em)しかし，Typstに読み込ませるtypファイルはただのテキストファイルなので，テキストエディタさえあれば，typファイルの作成や編集ができます．また書式設定等は，typファイルに専用の命令を書いて行うので，同じような設定をするのにマウスを何度もクリックする必要はありません．typファイルの内容を再利用するのも簡単です．
+*Typstの長所*#h(1em, weak: true)しかし，Typstに読み込ませるtypファイルはただのテキストファイルなので，テキストエディタさえあれば，typファイルの作成や編集ができます．また書式設定等は，typファイルに専用の命令を書いて行うので，同じような設定をするのにマウスを何度もクリックする必要はありません．typファイルの内容を再利用するのも簡単です．
 
-== #[#LaTeX]との比較
+== LaTeXとの比較
 
 レポートや論文の組版に用いられる組版エンジンとしては#[#LaTeX]などもあります．
 
-*#[#LaTeX]の長所*#h(1em)#[#LaTeX]は学術の世界では以前から一般的に用いられてきた組版エンジンです．そのため，#[#LaTeX]に関する情報は本やインターネットである程度は見つかります．学術機関からクラスファイルが提供されていることもあります．また，組版結果も美しく，特に数式の組版結果の美しさで有名です．
+*#[#LaTeX]の長所*#h(1em, weak: true)#[#LaTeX]は学術の世界では以前から一般的に用いられてきた組版エンジンです．そのため，#[#LaTeX]に関する情報は本やインターネットである程度は見つかります．学術機関からクラスファイルが提供されていることもあります．また，組版結果も美しく，特に数式の組版結果の美しさで有名です．
 
-*Typstの長所*#h(1em)#[#LaTeX]を導入したり思い通りに使いこなしたりするには，必要な前提知識が多いといわれています．特に和文組版においてそれが顕著だといわれています．一方で，Typstの場合は，レポートや論文の組版でよく使われる，数式組版や相互参照のための仕組みが整っていて，そのためにTypst以外のソフトウェアをインストールする必要はありません．また，組版の速さは#[#LuaLaTeX]などの#[#LaTeX]処理系と比べても非常に高速で，100ページにわたる印刷物であっても1秒足らずで組み上げることができます．
+*Typstの長所*#h(1em, weak: true)#[#LaTeX]を導入したり思い通りに使いこなしたりするには，必要な前提知識が多いといわれています．特に和文組版においてそれが顕著だといわれています．一方で，Typstの場合は，レポートや論文の組版でよく使われる，数式組版や相互参照のための仕組みが整っていて，そのためにTypst以外のソフトウェアをインストールする必要はありません．また，組版の速さは#[#LuaLaTeX]などの#[#LaTeX]処理系と比べても非常に高速で，100ページにわたる印刷物であっても1秒足らずで組み上げることができます．
 
 #figure(
   placement: auto,
@@ -247,23 +227,23 @@ Typstでは，文献の書誌情報だけをまとめたファイルを用意し
   @mgn901:1 や @mgn901:2 は，Hogehogeの場合におけるFugafugaを検討しているが，Piyopiyoの場合については不十分である．
   ```\
 
-*BibTeX形式の書誌情報を入手する方法*#h(1em)多くの場合，bibファイルに記述する書誌情報を，手で書き起こす必要はありません．CiNii Research @cinii やScopus @scopus 等の論文データベースや，国立国会図書館サーチ @ndl:ndlsearch のような国立図書館のデータベースの画面には，`書誌情報を出力`，`引用する`，`Cite`，`BibTex`，「`”`（二重引用符）」などのような名前のボタンがあります．そのボタンをクリックすると，BibTeX形式の書誌情報を入手することができます．Wordのように，書誌情報を手で入力したり，文献を増やすごとに番号を付け替えたり並べ替えたりする必要はありません．
+*BibTeX形式の書誌情報を入手する方法*#h(1em, weak: true)多くの場合，bibファイルに記述する書誌情報を，手で書き起こす必要はありません．CiNii Research @cinii やScopus @scopus 等の論文データベースや，国立国会図書館サーチ @ndl:ndlsearch のような国立図書館のデータベースの画面には，`書誌情報を出力`，`引用する`，`Cite`，`BibTex`，「`”`（二重引用符）」などのような名前のボタンがあります．そのボタンをクリックすると，BibTeX形式の書誌情報を入手することができます．Wordのように，書誌情報を手で入力したり，文献を増やすごとに番号を付け替えたり並べ替えたりする必要はありません．
 
-*分野に合ったスタイル（書き方）で書誌情報を載せたい*#h(1em)書誌情報のスタイルは分野によって異なり，所属する学術機関によってはスタイルが決まっている場合があります．スタイルを変更したい場合は，`#bibliography()`関数を呼び出す際に`style`引数にスタイルの名前を指定してください．Typstにはいくつかのスタイルが収録されていて，その一覧は @typst:bibliography で確認することができます（ページの`View options`ボタンを押すと一覧が表示されます）．\ \
+*分野に合ったスタイル（書き方）で書誌情報を載せたい*#h(1em, weak: true)書誌情報のスタイルは分野によって異なり，所属する学術機関によってはスタイルが決まっている場合があります．スタイルを変更したい場合は，`#bibliography()`関数を呼び出す際に`style`引数にスタイルの名前を指定してください．Typstにはいくつかのスタイルが収録されていて，その一覧は @typst:bibliography で確認することができます（ページの`View options`ボタンを押すと一覧が表示されます）．\ \
 ```typ
 #bibliography("references.bib", style: "sist02")
 ```\
 Typstに収録されていないスタイルにしたい場合は，Citation Style Languageで記述されたスタイルファイル（CSLファイル）を用意して，そのtypファイルと同じフォルダ（またはその中のフォルダ）に保存して，それを使用するようにtypファイルを修正してください．なおmgn901-paper-typには，おまけとして，情報処理学会論文誌のスタイルを再現#footnote([再現は完全ではありません．現在のCSLファイルの仕様上，欧文用のスタイルと和文用のスタイルを分けることはできないようです．])したCSLファイルを同梱しています．\ \
 ```typ
 #bibliography("references.bib", style: "./libs/ipsj.lib")
-```\
+```
 
 // 本文 終わり
 
 // 参考文献リスト
 
 #show heading.where(level: 1): set heading(numbering: none)
-#show: type-style.with(..type-settings.footnote)
+#show: style.with((s.text-sm,))
 #bibliography("references.bib", style: "sist02")
 
 // 参考文献リスト 終わり
