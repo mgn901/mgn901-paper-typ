@@ -1,115 +1,124 @@
 #import "../presets/thesis.typ": (
-  font-settings,
-  font-settings,
-  page-settings,
-  type-settings,
-  heading-type-settings,
+  heading-token-params as thesis-heading-tokens-params, page-settings, style-tokens as thesis-style-tokens,
 )
-#import "common-bibliography.typ": common-bibliography
 #import "common-enum.typ": common-enum
 #import "common-list.typ": common-list
-#import "common-page.typ": common-page
 #import "common-terms.typ": common-terms
-#import "font-style.typ": font-style
-#import "mpl.typ": create-mpl
+#import "common-page.typ": common-page
+#import "paper-table.typ": paper-table
 #import "paper-figure.typ": paper-figure
 #import "paper-footnote.typ": paper-footnote
-#import "paper-heading.typ": paper-heading
 #import "paper-math.typ": paper-math
-#import "paper-table.typ": paper-table
-#import "state.typ": update-dist-from-heading
-#import "type-style.typ": type-style, inline-type-style
-#import "utils.typ": q
+#import "style.typ": spiro-rounded-rect, style
+#import "utils.typ": adjust-latin-text-size as adjust-latin-text-size-func, heading-tokens-from, q, set-lang
 
 #let paper(
   document-settings: (lang: "ja"),
+  style-tokens: thesis-style-tokens,
+  heading-tokens-params: thesis-heading-tokens-params,
   page-settings: page-settings,
-  font-settings: font-settings,
-  type-settings: type-settings,
-  heading-font-settings: (font-settings.heading,),
-  heading-type-settings: heading-type-settings,
-  heading-settings: (
-    (numbering: "第1章", label-width: 4em, break-before: true),
-    (numbering: "1.1.", label-width: auto, break-before: false),
-  ),
+  adjust-latin-text-size: true,
   body,
 ) = {
-  let mpl = create-mpl(font-settings: font-settings, type-settings: type-settings)
+  let s = style-tokens
+
+  show: text.with(lang: document-settings.lang)
+  show: set-lang.with(document-settings.lang)
+
+  show: common-enum.with(marker-width: 2em)
+  show: common-list.with(marker-width: 2em)
+  show: common-page.with(
+    ..page-settings,
+    line-spacing: s.text-base.line-spacing,
+    text-size: s.text-base.text-size,
+  )
+  show: common-terms.with(separator-width: 1em, hanging-indent: 2em)
+  show: paper-figure.with(
+    line-spacing: s.text-base.line-spacing,
+    text-size: s.text-base.text-size,
+    caption-styler: style.with((s.text-sm,)),
+    caption-label-styler: style.with((s.font-sans, s.font-semibold)),
+  )
+  show: paper-footnote.with(
+    footnote-clearance: s.text-base.line-spacing + s.text-base.text-size / 2,
+    footnote-gap: s.text-sm.line-spacing,
+    footnote-styler: style.with((s.text-sm,)),
+  )
+  show: paper-math.with(
+    line-spacing: s.text-base.line-spacing,
+    text-size: s.text-base.text-size,
+  )
+  show: paper-table.with()
+  show: adjust-latin-text-size-func.with()
+
+  show: style.with((
+    s.font-normal,
+    s.font-serif,
+    s.text-base,
+    (line-justify: true),
+  ))
+
+  set box(baseline: .125em)
+
+  set heading(numbering: "1.1.", supplement: none)
+
+  show raw: style.with((s.font-medium, s.font-mono, (text-size: 1em)))
+  show raw.where(block: true): style.with(((line-justify: false),))
+
+  show strong: style.with((s.font-sans, s.font-semibold))
+  set strong(delta: 0)
+
+  show table: style.with((s.text-xs,))
+  set table(
+    inset: (
+      x: s.text-xs.text-size / 2,
+      y: s.text-xs.line-spacing,
+    ),
+  )
+
+  show ref: it => {
+    show: style.with(
+      if it.element != none and (heading, figure, table).contains(it.element.func()) {
+        (s.font-sans, s.font-semibold)
+      } else {
+        ()
+      },
+    )
+    it
+  }
+
+  show heading: it => {
+    it
+    [#metadata("heading")<mgn901-paper.par-types>]
+  }
+  show parbreak: it => {
+    it
+    [#metadata("par")<mgn901-paper.par-types>]
+  }
 
   context {
-    show: it => array
-      .range(calc.max(heading-font-settings.len(), heading-type-settings.len(), heading-settings.len()))
-      .fold(
-        it,
-        (it, i) => {
-          let type-setting = heading-type-settings.at(calc.min(i, heading-type-settings.len() - 1))
-          let font-setting = heading-font-settings.at(calc.min(i, heading-font-settings.len() - 1))
-          let heading-setting = heading-settings.at(calc.min(i, heading-settings.len() - 1))
-          show heading.where(level: i + 1): paper-heading.with(
-            default-type-settings: type-settings.default,
-            heading-type-settings: type-setting,
-            font-heading: mpl.font-heading,
-            type-heading: type-style.with(font-size: type-setting.font-size, line-height: type-setting.line-height),
-            label-width: heading-setting.label-width,
-            break-before: heading-setting.break-before,
-          )
-          show heading.where(level: i + 1): set heading(numbering: heading-setting.numbering)
-          it
-        },
-      )
-    show: type-style.with(..type-settings.default, lang: document-settings.lang)
-    show: font-style.with(..font-settings.default)
-    show raw: font-style.with(..font-settings.monospace)
-    show raw: inline-type-style.with(..type-settings.monospace)
-    show raw.where(block: true): set par(justify: false)
-    show strong: font-style.with(..font-settings.strong)
-    set strong(delta: 0)
-    set box(baseline: .125em)
+    let headings = query(heading)
 
-    show: common-enum.with(marker-width: 2em)
-    show: common-list.with(marker-width: 2em)
-    show: common-page.with(
-      ..page-settings,
-      line-height: type-settings.default.line-height,
-      font-size: type-settings.default.font-size,
-    )
-    show: common-terms.with(separator-width: 1em, hanging-indent: 2em)
-    show: update-dist-from-heading.with()
-    show: paper-figure.with(
-      column-numbers: page-settings.column-numbers,
-      line-length: page-settings.line-length,
-      column-gap: page-settings.column-gap,
-      default-type-settings: type-settings.default,
-      type-footnote: mpl.type-footnote,
-      font-footnote: mpl.font-footnote,
-      font-strong: mpl.font-strong,
-    )
-    show: paper-math.with(
-      type-settings: type-settings.default,
-      line-length: page-settings.line-length,
-      column-numbers: page-settings.column-numbers,
-      column-gap: page-settings.column-gap,
-    )
-    show: paper-table.with(type-settings: type-settings.small, type-table: mpl.type-small, font-table: mpl.font-small)
-    show: paper-footnote.with(
-      default-type-settings: type-settings.default,
-      footnote-type-settings: type-settings.footnote,
-      font-footnote: mpl.font-footnote,
-      type-footnote: mpl.type-footnote,
-    )
-
-    show ref: it => {
-      if query(heading).contains(it.element) {
-        link(
-          it.target,
-          numbering(it.element.numbering, ..counter(it.element.func()).at(it.element.location())),
+    show: it => heading-tokens-params
+      .enumerate(start: 0)
+      .fold(it, (prev, v) => {
+        let i = v.at(0)
+        let param = v.at(1)
+        show heading.where(level: i + 1): it => style(
+          (
+            ..heading-tokens-from(
+              it.location(),
+              base-tokens: s.text-base,
+              heading-tokens: param.heading-tokens,
+              lines-before: param.lines-before,
+              lines-after: param.lines-after,
+              line-feed: param.line-feed,
+            ),
+          ),
+          it,
         )
-      } else if query(figure).contains(it.element) {
-        (mpl.font-strong)(it)
-      } else {
-        it
-      }
-    }
+        prev
+      })
 
     body
   }

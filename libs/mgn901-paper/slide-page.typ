@@ -1,151 +1,95 @@
 #import "common-page.typ": common-page
 #import "common-enum.typ": common-enum
-#import "common-perpage-bibliography.typ": common-perpage-bibliography, references
-#import "slide-running-head.typ": running-head-state
-#import "type-style.typ": inline-type-style, type-style
-#import "font-style.typ": font-style
-#import "../diagram/spiro-rounded-rect.typ": spiro-rounded-rect
-#import "../presets/common.typ": color-presets
-#import "../presets/slide.typ": type-settings, font-settings
 #import "utils.typ": q
 
 #let slide-page(
   body,
-  width: 210mm,
-  height: 297mm,
-  column-numbers: 1,
-  column-gap: 3em,
-  line-length: 36,
-  line-numbers: 32,
-  line-height: q(30),
-  font-size: q(17),
-  default-type-settings: type-settings.default,
-  running-head-title-type-settings: type-settings.footnote,
-  running-head-type-settings: type-settings.bibliography,
-  running-head-default-font-settings: font-settings.default,
-  running-head-strong-font-settings: font-settings.strong,
-  bibliography-type-settings: type-settings.small,
-  bibliography-font-settings: font-settings.default,
-  nombre: true,
+  text-base-token: (text-size: q(32), line-spacing: q(38 - 32)),
+  section-title-styler: it => it,
+  bibliography-styler: it => it,
+  nombre-current-styler: it => it,
+  nombre-total-styler: it => it,
+  running-head-width: 3em,
+  running-head-item-styler: it => it,
+  running-head-current-item-styler: it => it,
+  running-head-intersperce: [],
 ) = {
-  show: common-page.with(
-    width: width,
-    height: height,
-    column-numbers: column-numbers,
-    column-gap: column-gap,
-    line-length: line-length,
-    line-numbers: line-numbers,
-    line-height: line-height,
-    font-size: font-size,
-    nombre: nombre,
-  )
-
   set page(
-    foreground: context [
-      #show: common-enum.with(marker-width: 2em, numbering-pattern: "[1]")
-
-      #place(
-        grid(
-          rows: (1fr, auto),
-          row-gutter: 0em,
-          inset: (
-            x: (width - font-size * line-length * column-numbers - (column-gap * (column-numbers - 1))) / 2,
-            y: (page.height - line-height * (line-numbers + 1)) / 2,
-          ),
-          align: start + top,
-          type-style(..type-settings.footnote, running-head-state.get().last().at("body")),
-          [
-            #type-style(
-              ..type-settings.bibliography,
-              range(references.get().len())
-                .zip(references.get())
-                .map(item => enum.item(item.at(0) + 1, cite(item.at(1), form: "full")))
-                .join(),
-            )
-          ]
-        ),
+    numbering: "1",
+    footer: [],
+    background: context {
+      let section-title = (
+        () => {
+          let query-results = query(selector(<mgn901-paper.sections>)).filter(md => (
+            md.location().page() <= here().page()
+          ))
+          if query-results.len() == 0 [] else { query-results.last().value.title }
+        }
+      )()
+      place(
+        top + start,
+        dx: page.margin.left,
+        dy: page.margin.top - 1em,
+        section-title-styler[#section-title],
       )
 
-      #place(
-        grid(
-          columns: (
-            1fr,
-            (width - font-size * line-length * column-numbers - (column-gap * (column-numbers - 1))) / 2,
-          ),
-          inset: (
-            x: type-settings.bibliography.font-size,
-            y: (page.height - line-height * (line-numbers - 1)) / 2,
-          ),
-          [],
-          type-style(
-            ..type-settings.bibliography,
-            if running-head-state.get().slice(1).len() == 0 { } else {
-              grid(
-                align: center,
-                row-gutter: type-settings.bibliography.line-height / 4,
-                ..range(running-head-state.final().slice(1).len())
-                  .zip(running-head-state.final().slice(1))
-                  .map(item => {
-                    if item.at(0) == running-head-state.get().slice(1).len() - 1 {
-                      spiro-rounded-rect(
-                        width: 100%,
-                        inset: type-settings.bibliography.line-height / 4,
-                        outset: 0em,
-                        radius: type-settings.bibliography.line-height / 2,
-                        stroke: none,
-                        fill: color-presets.red.at(3),
-                        font-style(
-                          ..running-head-strong-font-settings,
-                          color: color-presets.red.at(8),
-                          item.at(1).at("abbr"),
-                        ),
-                      )
-                    } else {
-                      spiro-rounded-rect(
-                        width: 100%,
-                        inset: type-settings.bibliography.line-height / 4,
-                        outset: 0em,
-                        radius: type-settings.bibliography.line-height / 2,
-                        stroke: none,
-                        fill: color-presets.red.at(2),
-                        font-style(
-                          ..running-head-default-font-settings,
-                          color: color-presets.red.at(8),
-                          item.at(1).at("abbr"),
-                        ),
-                      )
-                    }
-                  })
-                  .intersperse(font-style(..running-head-default-font-settings, color: color-presets.red.at(3), [▼])),
-              )
-            },
-          ),
-        ),
+      let references = query(<mgn901-paper.refs>)
+      let references-deduped = references.map(md => md.value).dedup()
+      let references-on-page = (
+        references.filter(md => md.location().page() == here().page()).map(md => md.value).dedup()
+      )
+      let per-page-bibliography = for l in references-on-page [
+        #enum.item(
+          references-deduped.position(m => l == m) + 1,
+          cite(l, form: "full"),
+        )
+      ]
+      place(
+        bottom + start,
+        dx: page.margin.left,
+        dy: -page.margin.bottom + 1em,
+        block(width: 100% - page.margin.left - page.margin.right)[
+          #show: common-enum.with(marker-width: 2em, numbering-pattern: "[1]")
+          #align(top + start)[#bibliography-styler[#per-page-bibliography]]
+        ],
       )
 
-      #place(
-        grid(
-          align: center,
-          columns: (
-            1fr,
-            (width - font-size * line-length * column-numbers - (column-gap * (column-numbers - 1))) / 2,
-          ),
-          inset: (
-            x: type-settings.bibliography.font-size,
-            y: (page.height - line-height * (line-numbers + 1)) / 2,
-          ),
-          [],
-          type-style(
-            ..type-settings.small,
-            font-style(
-              ..bibliography-font-settings,
-              color: color-presets.red.at(8),
-              numbering("1", ..counter(page).get()),
-            ),
-          ),
-        ),
+      place(
+        top + right,
+        dx: (page.margin.right - running-head-width) / -2,
+        dy: page.margin.top - 1em,
+        [
+          #nombre-current-styler[#numbering(
+            page.numbering,
+            ..counter(page).get(),
+          )]#nombre-total-styler[ \/ #numbering(
+              page.numbering,
+              ..counter(page).final(),
+            )]
+        ],
       )
-    ],
+
+      let sections = query(<mgn901-paper.sections>)
+      if here().page() != 1 {
+        place(
+          top + right,
+          dx: (page.margin.right - running-head-width) / -2,
+          dy: page.margin.top,
+          for (i, md) in sections.intersperse(running-head-intersperce).enumerate() [
+            #let next = if i / 2 < sections.len() - 1 { sections.at(calc.floor(i / 2) + 1) } else { none }
+            #if calc.rem(i, 2) == 1 [
+              #running-head-intersperce
+            ] else if (
+              here().page() >= md.location().page() and (next == none or here().page() < next.location().page())
+            ) [
+              #running-head-current-item-styler[#align(horizon + center)[#md.value.abbr]]
+            ] else [
+              #running-head-item-styler[#align(horizon + center)[#md.value.abbr]]
+            ]
+          ],
+        )
+      }
+    },
   )
 
   body

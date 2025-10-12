@@ -2,65 +2,130 @@
 #import "@preview/cetz:0.3.2"
 #import "@preview/fletcher:0.5.4"
 #import "libs/diagram/icon.typ": icon
-#import "libs/diagram/shape.typ": create-mpl-bubble
-#import "libs/diagram/node-edge.typ": node, edge, annotation-node, straight
-#import "libs/mgn901-paper/common-perpage-bibliography.typ": cite
-#import "libs/mgn901-paper/mpl.typ": create-mpl
+#import "libs/diagram/shape.typ": themed-shape
+#import "libs/diagram/node-edge.typ": annotation-node, edge, node, straight
+#import "libs/mgn901-paper/common-per-page-bibliography.typ": cite
+#import "libs/mgn901-paper/slide-section.typ": set-section
 #import "libs/mgn901-paper/slide.typ": slide
-#import "libs/mgn901-paper/slide-running-head.typ": running-head
+#import "libs/mgn901-paper/style.typ": style
 #import "libs/mgn901-paper/utils.typ": q
-#import "libs/mgn901-paper/utils.typ": q
-#import "libs/presets/slide.typ": page-settings, type-settings, font-settings, heading-type-settings
-#import "libs/presets/common.typ": color-presets
+#import "libs/presets/slide.typ": heading-token-params, page-settings, slide-page-tokens, style-tokens as s
 #import "libs/slide-frontmatter.typ": slide-frontmatter
 
-#let mpl = create-mpl(font-settings: font-settings, type-settings: type-settings)
-#let mpl-bubble = create-mpl-bubble(font-settings: font-settings.strong, type-settings: type-settings.default)
+// 図解作成用の関数、テンプレートの設定
+#let tsd = themed-shape(
+  node-style-tokens: (
+    s.bg-t1b7-100,
+    s.border-0,
+    s.rounded-md,
+    s.inset-20,
+    s.text-t1b7-800,
+  ),
+  edge-style-tokens: (
+    s.border-8,
+    s.border-t1b7-600,
+    s.text-t1b7-800,
+    s.font-semibold,
+  ),
+  annotation-node-style-tokens: (
+    s.border-8,
+    s.border-t1b7-600,
+    s.bg-white,
+    s.rounded-md,
+    s.inset-20,
+    s.text-t1b7-800,
+    s.font-semibold,
+  ),
+)
+
+#let tsa = themed-shape(
+  node-style-tokens: (
+    s.bg-t1b7-600,
+    s.border-0,
+    s.rounded-md,
+    s.inset-20,
+    s.text-white,
+    s.font-semibold,
+  ),
+)
+
+#let tss = themed-shape(
+  node-style-tokens: (
+    s.bg-r7y1-100,
+    s.border-0,
+    s.rounded-md,
+    s.inset-20,
+    s.text-r7y1-800,
+    s.font-medium,
+  ),
+)
+
+#let tsg = themed-shape(
+  node-style-tokens: (
+    s.bg-g0-0,
+    s.border-2,
+    s.border-g0-100,
+    s.rounded-md,
+    s.inset-20,
+    s.text-g0-800,
+  ),
+)
+
+#let lh(number) = s.text-base.text-size * number + s.text-base.line-spacing * (number + 1)
 
 #show: slide.with(
   document-settings: (lang: "ja"),
   page-settings: page-settings,
-  type-settings: type-settings,
-  font-settings: font-settings,
-  heading-type-settings: heading-type-settings,
-  heading-font-settings: (font-settings.heading,),
-  heading-settings: (
-    (label-width: 1em, numbering: none, break-before: true),
-    (label-width: 2em, numbering: none, break-before: false),
-  ),
+  style-tokens: s,
+  heading-tokens-params: heading-token-params,
+  slide-page-tokens: slide-page-tokens,
 )
+// 図解作成用の関数、テンプレートの設定 終わり
+
+// 表紙
 
 #slide-frontmatter(
   title: [レポート・論文・スライド組版向け\ Typstテンプレート「mgn901-paper-typ」],
   subtitle: [],
-  author: [めがね901\ 個人サークル めがね901\ https://mgn901.com],
+  author: [めがね901\ 個人サークル めがね901#linebreak()https://mgn901.com],
   date: [2025年2月11日],
-  title-font-settings: font-settings.heading,
-  subtitle-font-settings: font-settings.default,
-  author-font-settings: font-settings.default,
-  default-type-settings: type-settings.default,
-  title-type-settings: type-settings.frontmatter-title,
-  subtitle-type-settings: type-settings.frontmatter-default,
-  author-type-settings: type-settings.frontmatter-small,
+  title-styler: style.with((s.text-no-justify, s.text-2xl, s.font-sans, s.font-bold)),
+  subtitle-styler: style.with((s.text-no-justify, s.text-xl)),
+  author-styler: style.with((s.text-no-justify, s.text-lg)),
+  text-base-token: s.text-base,
 )
+
+// 本文
 
 = 本スライドの構成
 
-+ Typstとは
-+ Typstの導入方法
-+ mgn901-paper-typの利用方法
-+ mgn901-paper-typでのスライドの作り方
+#style((s.gap-y-30,))[
+  #grid(
+    (tss.node)(width: 100%)[1. Typstとは],
+    (tss.node)(width: 100%)[2. Typstの導入方法],
+    (tss.node)(width: 100%)[3. mgn901-paper-typの利用方法],
+    (tss.node)(width: 100%)[4. mgn901-paper-typでのスライドの作り方（後日公開予定）],
+  )
+]
 
 = Typstテンプレート「mgn901-paper-typ」の特長
 
-#grid(
-  columns: (1fr, 1fr, 1fr),
-  column-gutter: 1em,
-  rows: (100% - type-settings.default.line-height * 2.26),
-  (mpl-bubble.block-strong)(height: 100%)[
-    1. #(mpl.itype-small)[レポート、論文、\ スライドなど、]\ #(mpl.font-heading)[多くの媒体の\ 組版に対応]
-    #(mpl-bubble.block-emph)[
-      #(mpl.type-footnote)[
+#style((s.gap-x-30,), (f, _) => [
+  #grid(
+    columns: (1fr, 1fr, 1fr),
+    rows: (s.text-base.text-size * 14 + s.text-base.line-spacing * 15),
+    (tsa.node)(width: 100%, height: 100%)[
+      #style((s.gap-x-10, s.inset-0))[
+        #grid(
+          columns: 2,
+          [1.],
+          [
+            #style((s.text-sm,))[レポート、論文、\ スライドなど]
+            #style((s.font-bold,))[多くの媒体の\ 組版に対応]
+          ],
+        )
+      ]
+      #(tsd.node)(width: 100%, style-tokens: (s.inset-10, s.rounded-xs, s.text-sm, s.font-medium))[
         - 充実のテンプレート
           - #icon[article] 1段組レポート
           - #icon[news] 1段組論文
@@ -68,22 +133,36 @@
           - #icon[slide_library] スライド
         - 書体、組体裁の設定は\ テンプレート本体と\ 独立していて、\ 簡単に変更可能
       ]
-    ]
-  ],
-  (mpl-bubble.block-strong)(height: 100%)[
-    2. #(mpl.itype-small)[和文組版向けの設定が\ 最初から適用済み]\ #(mpl.font-heading)[美しい仕上がりを\ 簡単に得られる]
-    #block(
-      width: 100%,
-      clip: true,
-      fill: white,
-      stroke: none,
-      radius: (type-settings.default.line-height - type-settings.default.font-size) * 1.5,
-    )[#image(width: 100%, "./figures/example-article.svg")]
-  ],
-  (mpl-bubble.block-strong)(height: 100%)[
-    3. #(mpl.itype-small)[読みやすく美しい\ 紙面や画面の作成に役立つ]\ #(mpl.font-heading)[充実した\ 機能、関数]
-    #(mpl-bubble.block-emph)[
-      #(mpl.type-small)[
+    ],
+    (tsa.node)(width: 100%, height: 100%)[
+      #style((s.gap-x-10, s.inset-0))[
+        #grid(
+          columns: 2,
+          [2.],
+          [
+            #style((s.text-sm,))[和文組版向けの設定が\ 最初から適用済み]
+            #style((s.font-bold,))[美しい仕上がりを\ 簡単に得られる]
+          ],
+        )
+      ]
+      #style((s.bxbg-white, s.inset-0, s.bxrounded-2xs))[
+        #box(clip: true)[
+          #image("figures/example-article.svg")
+        ]
+      ]
+    ],
+    (tsa.node)(width: 100%, height: 100%)[
+      #style((s.gap-x-10, s.inset-0))[
+        #grid(
+          columns: 2,
+          [3.],
+          [
+            #style((s.text-sm,))[読みやすく美しい\ 紙面、画面の作成に役立つ]
+            #style((s.font-bold,))[充実した\ 機能、関数]
+          ],
+        )
+      ]
+      #(tsd.node)(width: 100%, style-tokens: (s.inset-10, s.rounded-xs, s.text-sm, s.font-medium))[
         - 番号付き見出し
         - 番号付き図表
         - 図表、数式の自動行取り
@@ -93,194 +172,166 @@
         - スライドごとの参考文献の\ 書誌情報の挿入
         - 図解作成用の関数
         - 緩和曲線の角丸矩形
+        - 和欧混植時の\ 欧字サイズの調整
       ]
-    ]
-  ],
-)
+    ],
+  )
+])
+
+#set-section(title: [], abbr: [Typstとは])
 
 = Typst：レポート、論文、スライド向けの組版エンジン
 
-#running-head([], [Typst\ とは])
+#style((s.gap-y-40,))[
+  #grid(
+    columns: (1fr, 4fr / 3, 1fr),
+    align: (horizon + center, horizon + center, horizon + center),
+    node(<node1>)[
+      #(tsd.node)[#icon[docs] 文字や図表]
+    ],
+    node(<node2>)[
+      #(tsa.node)[*#icon[memory] 組版エンジン*\ #style((s.text-sm,))[文字や図表を\ 紙面に配置]]
+    ],
+    node(<node3>)[
+      #(tsd.node)[#icon[picture_as_pdf] PDFファイル #style((s.itext-sm,))[等]]
+    ],
 
-#grid(
-  columns: (1fr, 1.5fr, 1fr),
-  align: (right + horizon, center + horizon, left + horizon),
-  node(<node:typstとは:入力>)[#(mpl-bubble.emph)[#icon[docs] 文字や図表]],
-  node(<node:typstとは:組版エンジン>)[
-    #(mpl-bubble.strong)[
-      #icon[memory]組版エンジン
-      #(mpl.type-small)[文字や図表を\ 紙面に配置]
-    ]
-  ],
-  node(<node:typstとは:pdf1>)[#(mpl-bubble.emph)[#icon[picture_as_pdf] PDFファイル#(mpl.itype-footnote)[等]]],
-)
-
-#edge(<node:typstとは:入力>, <node:typstとは:組版エンジン>, direction: "lr", label-pos: top)[
-  #(mpl-bubble.edge-default)[入力]
-]
-#edge(<node:typstとは:組版エンジン>, <node:typstとは:pdf1>, direction: "lr", label-pos: top)[
-  #(mpl-bubble.edge-default)[出力]
-]
-
-#v(type-settings.default.line-height, weak: true)
-
-#grid(
-  columns: (1fr, 1.5fr, 1fr),
-  align: (right + horizon, center + horizon, left + horizon),
-  node(<node:typstとは:typ>)[
-    #(mpl-bubble.emph)[
-      #align(center)[
-        #icon[data_object] typファイル
-        #(mpl.type-small)[Typst用の\ マークアップ言語]
-      ]
-    ]
-  ],
-  node(<node:typstとは:typst>)[
-    #(mpl-bubble.strong)[
-      #align(center)[
-        Typst
-        #(mpl.type-small)[組版エンジン]
-      ]
-    ]
-  ],
-  node(<node:typstとは:pdf2>)[#(mpl-bubble.emph)[#icon[picture_as_pdf] PDFファイル#(mpl.itype-footnote)[等]]],
-)
-
-#edge(<node:typstとは:typ>, <node:typstとは:typst>, direction: "lr", label-pos: top)[#(mpl-bubble.edge-default)[入力]]
-#edge(<node:typstとは:typst>, <node:typstとは:pdf2>, direction: "lr", label-pos: top)[#(mpl-bubble.edge-default)[出力]]
-
-
-#annotation-node(
-  <node:typstとは:typの特徴>,
-  <node:typstとは:typ>,
-  direction: "tb",
-  y: type-settings.default.line-height * 10,
-  start-sep: -.25em,
-)[
-  #(mpl-bubble.strong)[
-    #(mpl.type-footnote)[
-      - テキストエディタで\ 編集できる
-      - 再利用しやすい
-    ]
-  ]
+    node(<node4>)[
+      #(tsd.node)[#icon[data_object] typファイル\ #style((s.text-sm,))[Typst用の\ マークアップ言語]]
+    ],
+    node(<node5>)[
+      #(tsa.node)[*Typst*\ #style((s.text-sm,))[組版エンジン]]
+    ],
+    node(<node6>)[
+      #(tsd.node)[#icon[picture_as_pdf] PDFファイル #style((s.itext-sm,))[等]]
+    ],
+  )
 ]
 
-#annotation-node(
-  <node:typstとは:typstの特徴>,
-  <node:typstとは:typst>,
-  direction: "tb",
-  y: type-settings.default.line-height * 10,
-  start-sep: -.25em,
-)[
-  #(mpl-bubble.strong)[#(mpl.type-footnote)[数式組版や\ 相互参照の仕組みが\ 整っている]]
+#(tsd.edge)(<node1>, <node2>, label-pos: top)[入力]
+#(tsd.edge)(<node2>, <node3>, label-pos: top)[出力]
+#(tsd.edge)(<node4>, <node5>, label-pos: top)[入力]
+#(tsd.edge)(<node5>, <node6>, label-pos: top)[出力]
+#(tsd.annotation-node)(<node7>, <node4>, direction: "tb", y: lh(10))[
+  - テキストエディタで\ 編集できる
+  - 再利用しやすい
 ]
+#(tsd.annotation-node)(<node8>, <node5>, direction: "tb", y: lh(10))[
+  数式組版や\ 相互参照の仕組みが\ 整っている
+]
+
+#set-section(title: [Typstの導入方法], abbr: [導入方法])
 
 = 2つの導入方法
 
-#running-head([Typstの導入方法], [導入\ 方法])
-
-#(mpl-bubble.block-structural)[
-  1. #icon[devices] 自分のPCにインストールして利用する
-    - VSCode#(mpl.itype-footnote)[（Visual Studio Code）]上で利用する場合の方法#h(.125em)#(mpl.itype-footnote)[を紹介]
-]
-
-#(mpl-bubble.block-structural)[
-  2. #icon[cloud] typst.app#(mpl.itype-footnote)[（Typst Web Application）]上で利用する
+#style((s.gap-y-30,))[
+  #grid(
+    (tss.node)(width: 100%)[
+      1. #icon[devices] 自分のPCにインストールして利用する
+        - VSCode#style((s.itext-sm,))[（Visual Studio Code）]上で利用する場合の方法を紹介
+    ],
+    (tss.node)(width: 100%)[
+      2. #icon[cloud] typst.app#style((s.itext-sm,))[（Typst Web Application）]上で利用する
+    ],
+  )
 ]
 
 = VSCode上で利用する場合の導入方法
 
-== 1. VSCode#(mpl.itype-footnote)[（テキストエディタ）]をインストールする
+#style((s.gap-30,))[
+  #grid(
+    (tsg.node)(width: 100%)[
+      #style((s.gap-20, s.inset-0))[
+        #grid(
+          columns: (auto, 1fr, 1fr),
+          [1.],
+          grid.cell(colspan: 2)[== VSCode#style((s.itext-base,))[（テキストエディタ）]をインストールする],
+          [],
+          (tsd.node)(width: 100%, style-tokens: (s.rounded-xs,))[
+            *Windows#style((s.itext-sm,))[（Microsoft Store経由）]*
+            #style((s.text-xs,))[https://apps.microsoft.com/detail/xp9khm4bk9fz7q]
+          ],
+          (tsd.node)(width: 100%, style-tokens: (s.rounded-xs,))[
+            *Windows以外*
+            #style((s.text-xs,))[https://code.visualstudio.com]
+          ],
+        )
+      ]
+    ],
 
-#grid(
-  inset: (x: 1em),
-  columns: 2,
-  column-gutter: -1.5em,
-  link("https://apps.microsoft.com/detail/xp9khm4bk9fz7q")[
-    #(mpl-bubble.emph)[
-      Windows#(mpl.itype-footnote)[（Microsoft Store経由）]
-      #(mpl.type-small)[https://apps.microsoft.com/detail/xp9khm4bk9fz7q]
-    ]
-  ],
-  link("https://apps.microsoft.com/detail/xp9khm4bk9fz7q")[
-    #(mpl-bubble.emph)[
-      Windows以外
-      #(mpl.type-small)[https://code.visualstudio.com]
-    ]
-  ],
-)
-
-== 2. VSCodeを起動する
-
-== 3. 拡張機能をインストールする
-
-#grid(
-  inset: (x: 1em),
-  row-gutter: type-settings.default.line-height - type-settings.default.font-size,
-  link("https://marketplace.visualstudio.com/items?itemName=myriad-dreamin.tinymist")[
-    #(mpl-bubble.emph)[
-      Tinymist Typst#(mpl.itype-footnote)[（Typstが同梱されている）]
-      #(mpl.type-small)[https://marketplace.visualstudio.com/items?itemName=myriad-dreamin.tinymist]
-    ]
-  ],
-  link("https://marketplace.visualstudio.com/items?itemName=tomoki1207.pdf")[
-    #(mpl-bubble.emph)[
-      vscode-pdf#(mpl.itype-footnote)[（VSCodeでPDFを閲覧できる）]
-      #(mpl.type-small)[https://marketplace.visualstudio.com/items?itemName=tomoki1207.pdf]
-    ]
-  ],
-)
-
-= VSCodeでtypファイルを編集する
-
-== 1. フォルダを作成する
-
-#grid(inset: (x: 1em))[
-  - エクスプローラー（macOSの場合はFinder）などで、\ typファイルを保存するためのフォルダを作成する。
+    (tsg.node)(width: 100%)[
+      #style((s.gap-20, s.inset-0))[
+        #grid(
+          columns: (auto, 1fr),
+          [2.], [== VSCodeを起動する],
+        )
+      ]
+    ],
+    (tsg.node)(width: 100%)[
+      #style((s.gap-20, s.inset-0))[
+        #grid(
+          columns: (auto, 1fr, 1fr),
+          [3.],
+          grid.cell(colspan: 2)[== 拡張機能をインストールする],
+          grid.cell(x: 1)[
+            #(tsd.node)(width: 100%, style-tokens: (s.rounded-xs,))[
+              *Tinymist Typst#style((s.text-sm,))[（Typstが同梱されている）]*
+              #style((s.text-xs,))[https://marketplace.visualstudio.com/items?itemName=myriad-dreamin.tinymist]
+            ]
+          ],
+          grid.cell(x: 2)[
+            #(tsd.node)(width: 100%, style-tokens: (s.rounded-xs,))[
+              *vscode-pdf#style((s.text-sm,))[（VSCodeでPDFを閲覧できる）]*
+              #style((s.text-xs,))[https://marketplace.visualstudio.com/items?itemName=tomoki1207.pdf]
+            ]
+          ],
+        )]
+    ],
+  )
 ]
-
-== 2. 作成したフォルダを開く
-
-#grid(inset: (x: 1em))[
-  - VSCodeのメニューバーの#(mpl-bubble.inline-default)[`ファイル`]→#(mpl-bubble.inline-default)[`フォルダーを開く`]
-]
-
-== 3. VSCodeでフォルダ内のファイルを編集する
-
-#grid(inset: (x: 1em))[
-  - VSCodeの画面左側に、\ そのフォルダに含まれるファイルの一覧が表示される。
-  - 一覧から、テキストファイルの名前をダブルクリックすると、\ そのファイルをVSCodeで開くことができる。
-]
-
-= typst.app上で利用する場合の方法
-
-== 1. #link("https://typst.app/signup")[#(mpl-bubble.inline-default)[`typst.app/signup`]]にアクセスする
-
-== 2. 必要な情報を入力して#(mpl-bubble.inline-default)[`Sign Up`]をクリックする
 
 = typst.appでtypファイルを編集する
 
-== 1. #link("https://typst.app/app")[#(mpl-bubble.inline-default)[`typst.app/app`]]にアクセスしてログインする
-
-== 2. Projectを作成して開く
-
-#grid(inset: (x: 1em))[
-  - typst.appでは、\ typファイルのまとまりを「Project」として管理する。
-  - typst.appを開くと表示されるDashboardで、\ Projectを作成したり開いたりして、編集を始める。
+#style((s.gap-30,))[
+  #grid(
+    (tsg.node)(width: 100%)[
+      #style((s.gap-20, s.inset-0))[
+        #grid(
+          columns: (auto, 1fr),
+          [1.], [== #link("https://typst.app/app")[typst.app/app]にアクセスしてログインする],
+        )
+      ]
+    ],
+    (tsg.node)(width: 100%)[
+      #style((s.gap-20, s.inset-0))[
+        #grid(
+          columns: (auto, 1fr),
+          [2.], [== Projectを作成して開く],
+          grid.cell(x: 1)[
+            - typst.appでは、\ typファイルのまとまりを*Project*として管理する。
+            - typst.appを開くと表示されるDashboardで、\ Projectを作成したり開いたりして、編集を始める。
+          ],
+        )
+      ]
+    ],
+  )
 ]
 
-= mgn901-paper-typ#cite(<mgn901:mgn901-paper-typ>)とは
+#set-section(title: [mgn901-paper-typの利用方法], abbr: [利用方法])
 
-#running-head([mgn901-paper-typの利用方法], [利用\ 方法])
+= mgn901-paper-typ #cite(<mgn901:mgn901-paper-typ>) とは
 
-#v(type-settings.default.line-height)
-
-- Typstの#node(<node:mgn901-paper-typとは:テンプレート>)[#(mpl-bubble.inline-emph)[テンプレート]]
+#v(lh(1), weak: true)
+- Typstの #node(<node1>)[#box[#(tsd.node)(style-tokens: (s.inset-0, s.outset-5, s.rounded-xs))[テンプレート]]]
+#(tsd.annotation-node)(<node2>, <node1>, direction: "lr", x: 12em)[
+  印刷物の体裁を調整するための\ 命令だけが書かれたtypファイル
+]
+#v(lh(1), weak: true)
 - 和文組版のために調整
+#v(lh(1), weak: true)
 
 #align(center)[
-  #v(type-settings.default.line-height, weak: true)
-  #(mpl-bubble.strong)[
+  #(tsa.node)[
     #align(start)[
       - 追加の調整不要
       - 見た目はテンプレートに任せて、内容だけを意識して作業
@@ -289,220 +340,40 @@
   ]
 ]
 
-#annotation-node(
-  <node:mgn901-paper-typとは:テンプレート説明>,
-  <node:mgn901-paper-typとは:テンプレート>,
-  direction: "lr",
-  x: 50%,
-  start-sep: -.25em,
-)[#(mpl-bubble.emph)[印刷物の体裁を\ 調整するための命令だけが\ 書かれたtypファイル]]
-
 = mgn901-paper-typを利用して\ レポート・論文・スライドの作成をはじめる
 
-== 1. mgn901-paper-typのzipファイルをダウンロードする
-
-#grid(
-  inset: (x: 1em),
-  columns: 2,
-  column-gutter: -1.5em,
-  link("https://github.com/mgn901/mgn901-paper-typ/archive/refs/main.zip")[
-    #(mpl-bubble.emph)[
-      #icon[folder_zip] GitHubからzipファイルをダウンロード
-      #(mpl.type-small)[https://github.com/mgn901/mgn901-paper-typ/archive/refs/main.zip]
-    ]
-  ],
-)
-
-== 2. typファイルを保存するためのフォルダに展開する
-
-== 3. 名前が#(mpl-bubble.inline-default)[`example`]で始まるtypファイルを編集する
-
-#grid(inset: (x: 1em),)[
-  直接編集するか、複製して編集する。
+#style((s.gap-30,))[
+  #grid(
+    (tsg.node)(width: 100%)[
+      #style((s.gap-20, s.inset-0))[
+        #grid(
+          columns: (auto, 1fr),
+          [1.], [== mgn901-paper-typのzipファイルをダウンロードする],
+        )
+      ]
+    ],
+    (tsg.node)(width: 100%)[
+      #style((s.gap-20, s.inset-0))[
+        #grid(
+          columns: (auto, 1fr),
+          [2.], [== typファイルを保存するためのフォルダに展開する],
+        )
+      ]
+    ],
+    (tsg.node)(width: 100%)[
+      #style((s.gap-20, s.inset-0))[
+        #grid(
+          columns: (auto, 1fr),
+          [3.], [== 名前が`example`で始まるtypファイルを編集する],
+          grid.cell(x: 1)[
+            - 直接編集するか、複製して編集する。
+          ],
+        )
+      ]
+    ],
+  )
 ]
 
-= 真円による角丸 vs 緩和曲線による角丸
-
-#running-head([スライドテンプレート使用例], [スライド\ 作成例])
-
-// このスライドで用いるための大きい角丸四角形による吹き出しの定義
-#let mpl-bubble-big = create-mpl-bubble(
-  type-settings: (line-height: type-settings.default.line-height * 3, font-size: type-settings.default.font-size * 3),
-  font-settings: font-settings.strong,
-)
-
-#grid(
-  columns: (50%, 50%),
-  column-gutter: -1em,
-  row-gutter: type-settings.default.line-height,
-  inset: (x: 1em),
-  [
-    == #rect(
-      width: 100%,
-      inset: (type-settings.default.line-height - type-settings.default.font-size) * 4.5,
-      radius: (type-settings.default.line-height - type-settings.default.font-size) * 4.5,
-      fill: color-presets.blue.at(6),
-    )[
-      #align(center)[#(mpl.font-strong)(color: color-presets.gray1.at(0))[真円による角丸]]
-    ]
-  ],
-  [
-    == #(mpl-bubble-big.block-strong)[#align(center)[緩和曲線による角丸]]
-  ],
-
-  [
-    #node(<node:真円vs緩和曲線:真円曲率>)[
-      - 円弧と直線の接続部分で\ 曲率が#(mpl-bubble.inline-emph)[不連続]に変化する
-    ]
-    #v(type-settings.default.line-height * 1.5, weak: true)
-    #align(center)[#node(<node:真円vs緩和曲線:真円角丸感>)[#(mpl-bubble.emph)[ひっかかりのある角丸]]]
-    #v(type-settings.default.line-height, weak: true)
-    - 多くのソフトウェアで\ #(mpl-bubble.inline-emph)[簡単に利用可能]
-  ],
-  [
-    #node(<node:真円vs緩和曲線:緩和曲線曲率>)[
-      - 直線部分・曲線部分を通して\ 曲率が#(mpl-bubble.inline-emph)[連続]に変化する
-    ]
-    #v(type-settings.default.line-height * 1.5, weak: true)
-    #align(center)[#node(<node:真円vs緩和曲線:緩和曲線角丸感>)[#(mpl-bubble.strong)[なめらかな角丸]]]
-    #v(type-settings.default.line-height, weak: true)
-    - 多くのソフトウェアで\ 利用時に#(mpl-bubble.inline-emph)[工夫が必要]
-  ],
-)
-
-#edge(<node:真円vs緩和曲線:真円曲率>, <node:真円vs緩和曲線:真円角丸感>, direction: "tb")[]
-#edge(<node:真円vs緩和曲線:緩和曲線曲率>, <node:真円vs緩和曲線:緩和曲線角丸感>, direction: "tb")[]
-
-= Web上の情報システムを可能にする技術
-
-#grid(
-  columns: (1fr, 1fr, 1fr, 1fr),
-  rows: (100% - type-settings.default.line-height * 2.26),
-  stroke: ((x: q(.5)), (left: q(2), right: q(.5)), (x: q(.5)), (x: q(.5))),
-  inset: (x: .25em),
-  [
-    #node(<node:web:ua>)[
-      #align(center)[
-        #scale(x: 66%, reflow: true)[== ユーザエージェント]
-      ]
-      #v(type-settings.default.line-height)
-    ]
-    #(mpl.type-small)[
-      #(mpl-bubble.block-emph)[
-        - プレゼンテーション\ 層からのデータを\ ユーザに提示する
-        - プレゼンテーション\ 層にユーザの入力\ したデータを送る
-      ]
-      - SPAの場合は\ JavaScriptが\ JSONを送受信して\ DOMを書き換える。
-        #(mpl-bubble.block-default)[
-          React、Vue、\ Angularなど
-        ]
-    ]
-  ],
-  [
-    #node(<node:web:p>)[
-      #align(center)[
-        #scale(x: 66%, reflow: true)[== プレゼンテーション#(mpl.itype-footnote)[層]]
-      ]
-      #v(type-settings.default.line-height)
-    ]
-    #(mpl.type-small)[
-      #(mpl-bubble.block-emph)[アプリの状態を\ サーバ外に公開する]
-      - *MPA*—HTMLで公開
-        #(mpl-bubble.block-default)[
-          - JSP/Servlet
-        ]
-      - *SPA*—JSON等で公開
-        #(mpl-bubble.block-default)[
-          - Spring
-          - Express
-          - Fastify
-          - Hono
-          - Django
-          - Ruby on Rails\ など
-        ]
-    ]
-  ],
-  [
-    #node(<node:web:b>)[
-      #align(center)[
-        #scale(x: 66%, reflow: true)[== ビジネスロジック#(mpl.itype-footnote)[層]]
-      ]
-      #v(type-settings.default.line-height)
-    ]
-    #(mpl.type-small)[
-      #(mpl-bubble.block-emph)[アプリの\ モデルを表現する]
-      - プレゼンテーション層\ からの呼び出しに\ 応じて、結果の計算や、\ データアクセス層の\ 読み書きなどを行う。
-      - 様々な\ プログラミング\ パラダイム、設計論、\ 方法論が用いられる。
-    ]
-  ],
-  [
-    #node(<node:web:da>)[
-      #align(center)[
-        #scale(x: 66%, reflow: true)[== データアクセス#(mpl.itype-footnote)[層]]
-      ]
-      #v(type-settings.default.line-height)
-    ]
-    #(mpl.type-small)[
-      #(mpl-bubble.block-emph)[アプリの状態を\ 永続化する]
-      - *DBMS*
-        - *RDBMS*
-          #(mpl-bubble.block-default)[
-            - PostgreSQL
-            - MySQL など
-          ]
-        - *NoSQL*
-          #(mpl-bubble.block-default)[
-            - MongoDB など
-          ]
-      - *オブジェクトストレージ*
-        #(mpl-bubble.block-default)[
-          - S3 など
-        ]
-      - *ファイルシステム*
-    ]
-  ],
-)
-
-#edge(
-  <node:web:ua>,
-  <node:web:p>,
-  direction: "lr",
-  start-sep: -.5em,
-  end-sep: -.5em,
-  label-pos: top,
-  path-func: tiptoe.path.with(
-    tip: straight.with(width: q(40), length: q(40) / calc.sqrt(2)),
-    toe: straight.with(width: q(40), length: q(40) / calc.sqrt(2)),
-    stroke: stroke(thickness: q(8), paint: color-presets.blue.at(6), dash: "solid", cap: "butt"),
-  ),
-)[#(mpl-bubble.edge-default)[#(mpl.itype-small)[HTTP]]]
-
-#edge(
-  <node:web:p>,
-  <node:web:b>,
-  direction: "lr",
-  start-sep: -.5em,
-  end-sep: -.5em,
-  label-pos: top,
-  path-func: tiptoe.path.with(
-    tip: straight.with(width: q(40), length: q(40) / calc.sqrt(2)),
-    toe: straight.with(width: q(40), length: q(40) / calc.sqrt(2)),
-    stroke: stroke(thickness: q(8), paint: color-presets.blue.at(6), dash: "solid", cap: "butt"),
-  ),
-)[#(mpl-bubble.edge-default)[#(mpl.itype-small)[関数・メソッド呼び出し]]]
-
-#edge(
-  <node:web:b>,
-  <node:web:da>,
-  direction: "lr",
-  start-sep: -.5em,
-  end-sep: -.5em,
-  label-pos: top,
-  path-func: tiptoe.path.with(
-    tip: straight.with(width: q(40), length: q(40) / calc.sqrt(2)),
-    toe: straight.with(width: q(40), length: q(40) / calc.sqrt(2)),
-    stroke: stroke(thickness: q(8), paint: color-presets.blue.at(6), dash: "solid", cap: "butt"),
-  ),
-)[#(mpl-bubble.edge-default)[#(mpl.itype-small)[RPC、SQLなど]]]
+// 本文 終わり
 
 #bibliography("references.bib", style: "libs/ipsj-short-nonumber.csl")

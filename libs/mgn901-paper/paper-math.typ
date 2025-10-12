@@ -1,27 +1,16 @@
-#import "../presets/thesis.typ": page-settings, type-settings
 #import "paper-auto-line-feed.typ": paper-auto-line-feed
+#import "utils.typ": q
 
 #let paper-math(
   body,
-  type-settings: type-settings.default,
-  line-length: page-settings.line-length,
-  column-numbers: page-settings.column-numbers,
-  column-gap: page-settings.column-gap,
+  line-spacing: q(28 - 16),
+  text-size: q(16),
   auto-line-feed: true,
 ) = {
-  show math.equation.where(block: true): it => {
-    if auto-line-feed == true {
-      paper-auto-line-feed(
-        it,
-        type-settings: type-settings,
-        scope: "column",
-        line-length: line-length,
-        column-numbers: column-numbers,
-        column-gap: column-gap,
-      )
-    } else {
-      it
-    }
+  show math.equation.where(block: true): it => if auto-line-feed == true {
+    paper-auto-line-feed(it, line-spacing: line-spacing, text-size: text-size, scope: "column")
+  } else {
+    it
   }
 
   body

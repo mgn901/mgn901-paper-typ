@@ -1,94 +1,101 @@
 #import "../mgn901-paper/utils.typ": q
-#import "common.typ": color-presets
+#import "common.typ": color-style-tokens
 
 #let page-settings = (
-  width: 451.56mm,
-  height: 254mm,
+  width: 960pt,
+  height: 540pt,
   column-numbers: 1,
   column-gap: 3em,
-  line-length: 30,
-  line-numbers: 14,
+  line-length: 34,
+  line-numbers: 17,
   nombre: false,
 )
 
-#let type-settings = (
-  default: (
-    font-size: q(50),
-    line-height: q(62),
-  ),
-  footnote: (
-    font-size: q(38),
-    line-height: q(44),
-  ),
-  small: (
-    font-size: q(32),
-    line-height: q(38),
-  ),
-  bibliography: (
-    font-size: q(24),
-    line-height: q(28),
-  ),
-  monospace: (
-    font-size: 1em / 0.8,
-    line-height: q(62),
-  ),
-  frontmatter-title: (
-    font-size: q(70),
-    line-height: q(80),
-  ),
-  frontmatter-default: (
-    font-size: q(56),
-    line-height: q(62),
-  ),
-  frontmatter-small: (
-    font-size: q(50),
-    line-height: q(62),
-  ),
-)
-
-#let heading-type-settings = (
-  (
-    font-size: q(62),
-    line-height: q(70),
-    spacing-par: 0em,
-    spacing-heading: 0em,
-    line-feeding: 2,
-    padding-top: 0em,
-    padding-bottom: 0em,
-  ),
-  (
-    font-size: q(56),
-    line-height: q(62),
-    spacing-par: 0em,
-    spacing-heading: 0em,
-    line-feeding: 1.5,
-    padding-top: 0em,
-    padding-bottom: 0em,
-  ),
-  (
-    font-size: q(50),
-    line-height: q(62),
-    spacing-par: 0em,
-    spacing-heading: 0em,
-    line-feeding: 1,
-    padding-top: 0em,
-    padding-bottom: 0em,
-  ),
-)
-
-#let font-settings-presets = (
-  serif: (
+#let style-tokens = (
+  gap-0: (gap: 0em),
+  gap-5: (gap: q(3)),
+  gap-10: (gap: q(6)),
+  gap-15: (gap: q(9)),
+  gap-20: (gap: q(12)),
+  gap-25: (gap: q(15)),
+  gap-30: (gap: q(18)),
+  gap-35: (gap: q(21)),
+  gap-40: (gap: q(24)),
+  gap-x-0: (gap-x: 0em),
+  gap-x-5: (gap-x: q(3)),
+  gap-x-10: (gap-x: q(6)),
+  gap-x-15: (gap-x: q(9)),
+  gap-x-20: (gap-x: q(12)),
+  gap-x-25: (gap-x: q(15)),
+  gap-x-30: (gap-x: q(18)),
+  gap-x-35: (gap-x: q(21)),
+  gap-x-40: (gap-x: q(24)),
+  gap-y-0: (gap-y: 0em),
+  gap-y-5: (gap-y: q(3)),
+  gap-y-10: (gap-y: q(6)),
+  gap-y-15: (gap-y: q(9)),
+  gap-y-20: (gap-y: q(12)),
+  gap-y-25: (gap-y: q(15)),
+  gap-y-30: (gap-y: q(18)),
+  gap-y-35: (gap-y: q(21)),
+  gap-y-40: (gap-y: q(24)),
+  inset-0: (inset: 0em),
+  inset-5: (inset: q(3)),
+  inset-10: (inset: q(6)),
+  inset-15: (inset: q(9)),
+  inset-20: (inset: q(12)),
+  inset-25: (inset: q(15)),
+  inset-30: (inset: q(18)),
+  inset-35: (inset: q(21)),
+  inset-40: (inset: q(24)),
+  outset-0: (outset: 0em),
+  outset-5: (outset: q(3)),
+  outset-10: (outset: q(6)),
+  outset-15: (outset: q(9)),
+  outset-20: (outset: q(12)),
+  outset-25: (outset: q(15)),
+  outset-30: (outset: q(18)),
+  outset-35: (outset: q(21)),
+  outset-40: (outset: q(24)),
+  font-sans: (
     font-family: (
       latin: ("Inter",),
       cjk: (
-        "A P-OTF UD Shin Go Pr6N L",
+        "A P-OTF UD Shin Go Pr6N R",
         "Source Han Sans JP",
       ),
     ),
-    font-weight: 300,
-    font-features: (ss01: 1, ss02: 1, ss03: 1, zero: 1, tnum: 1),
+    font-features: (ss01: 1, ss02: 1, ss03: 1, zero: 1, tnum: 1, palt: 1),
   ),
-  sans: (
+  font-serif: (
+    font-family: (
+      latin: ("Inter",),
+      cjk: (
+        "A P-OTF UD Shin Go Pr6N R",
+        "Source Han Sans JP",
+      ),
+    ),
+    font-features: (ss01: 1, ss02: 1, ss03: 1, zero: 1, tnum: 1, palt: 1),
+  ),
+  font-mono: (
+    font-family: (
+      latin: ("Roboto Mono",),
+      cjk: ("Source Han Sans JP",),
+    ),
+    font-features: (:),
+  ),
+  font-normal: (
+    font-family: (
+      latin: ("Inter",),
+      cjk: (
+        "A P-OTF UD Shin Go Pr6N R",
+        "Source Han Sans JP",
+      ),
+    ),
+    font-features: (ss01: 1, ss02: 1, ss03: 1, zero: 1, tnum: 1, palt: 1),
+    font-weight: 400,
+  ),
+  font-medium: (
     font-family: (
       latin: ("Inter",),
       cjk: (
@@ -96,10 +103,10 @@
         "Source Han Sans JP",
       ),
     ),
+    font-features: (ss01: 1, ss02: 1, ss03: 1, zero: 1, tnum: 1, palt: 1),
     font-weight: 500,
-    font-features: (ss01: 1, ss02: 1, ss03: 1, zero: 1, tnum: 1, palt: 0),
   ),
-  heading: (
+  font-semibold: (
     font-family: (
       latin: ("Inter",),
       cjk: (
@@ -107,27 +114,151 @@
         "Source Han Sans JP",
       ),
     ),
-    font-weight: 600,
     font-features: (ss01: 1, ss02: 1, ss03: 1, zero: 1, tnum: 1, palt: 1),
+    font-weight: 600,
   ),
-  monospace: (
+  font-bold: (
     font-family: (
-      latin: ("Roboto Mono",),
+      latin: ("Inter",),
       cjk: (
-        // "A P-OTF UD Shin Go Pr6N L",
+        "A P-OTF UD Shin Go Pr6N B",
         "Source Han Sans JP",
       ),
     ),
-    font-weight: 400,
-    font-features: (:),
+    font-features: (ss01: 1, ss02: 1, ss03: 1, zero: 1, tnum: 1, palt: 1),
+    font-weight: 700,
+  ),
+  text-justify: (line-justify: true),
+  text-no-justify: (line-justify: false),
+  text-4xs: (text-size: q(12), line-spacing: q(14 - 12)),
+  text-3xs: (text-size: q(14), line-spacing: q(16 - 14)),
+  text-2xs: (text-size: q(16), line-spacing: q(18 - 16)),
+  text-xs: (text-size: q(18), line-spacing: q(20 - 18)),
+  text-sm: (text-size: q(24), line-spacing: q(28 - 24)),
+  text-base: (text-size: q(32), line-spacing: q(38 - 32)),
+  text-lg: (text-size: q(38), line-spacing: q(44 - 38)),
+  text-xl: (text-size: q(44), line-spacing: q(50 - 44)),
+  text-2xl: (text-size: q(50), line-spacing: q(56 - 50)),
+  text-3xl: (text-size: q(56), line-spacing: q(62 - 56)),
+  text-4xl: (text-size: q(62), line-spacing: q(70 - 62)),
+  text-5xl: (text-size: q(70), line-spacing: q(80 - 70)),
+  text-6xl: (text-size: q(80), line-spacing: q(90 - 80)),
+  itext-4xs: (text-size: q(12)),
+  itext-3xs: (text-size: q(14)),
+  itext-2xs: (text-size: q(16)),
+  itext-xs: (text-size: q(18)),
+  itext-sm: (text-size: q(24)),
+  itext-base: (text-size: q(32)),
+  itext-lg: (text-size: q(38)),
+  itext-xl: (text-size: q(44)),
+  itext-2xl: (text-size: q(50)),
+  itext-3xl: (text-size: q(56)),
+  itext-4xl: (text-size: q(62)),
+  itext-5xl: (text-size: q(70)),
+  itext-6xl: (text-size: q(80)),
+  border-0: (stroke-thickness: q(0)),
+  border-1: (stroke-thickness: q(.5)),
+  border-2: (stroke-thickness: q(1)),
+  border-4: (stroke-thickness: q(2)),
+  border-8: (stroke-thickness: q(4)),
+  rounded-none: (radius: 0em),
+  rounded-2xs: (radius: q(12)),
+  rounded-xs: (radius: q(14)),
+  rounded-sm: (radius: q(16)),
+  rounded-md: (radius: q(20)),
+  rounded-lg: (radius: q(28)),
+  rounded-xl: (radius: q(38)),
+  rounded-2xl: (radius: q(50)),
+  blrounded-none: (block-radius: 0em),
+  blrounded-2xs: (block-radius: q(12)),
+  blrounded-xs: (block-radius: q(14)),
+  blrounded-sm: (block-radius: q(16)),
+  blrounded-md: (block-radius: q(20)),
+  blrounded-lg: (block-radius: q(28)),
+  blrounded-xl: (block-radius: q(38)),
+  blrounded-2xl: (block-radius: q(50)),
+  bxrounded-none: (box-radius: 0em),
+  bxrounded-2xs: (box-radius: q(12)),
+  bxrounded-xs: (box-radius: q(14)),
+  bxrounded-sm: (box-radius: q(16)),
+  bxrounded-md: (box-radius: q(20)),
+  bxrounded-lg: (box-radius: q(28)),
+  bxrounded-xl: (box-radius: q(38)),
+  bxrounded-2xl: (box-radius: q(50)),
+  ..color-style-tokens,
+)
+
+#let heading-token-params = (
+  (
+    heading-tokens: (style-tokens.text-xl, style-tokens.font-bold),
+    lines-before: 0,
+    lines-after: 0,
+    line-feed: 2,
+  ),
+  (
+    heading-tokens: (style-tokens.text-lg, style-tokens.font-bold),
+    lines-before: 1,
+    lines-after: 0,
+    line-feed: 1,
+  ),
+  (
+    heading-tokens: (style-tokens.text-base, style-tokens.font-bold),
+    lines-before: 1,
+    lines-after: 0,
+    line-feed: 1,
+  ),
+  (
+    heading-tokens: (style-tokens.text-sm, style-tokens.font-bold),
+    lines-before: 1,
+    lines-after: 0,
+    line-feed: 1,
+  ),
+  (
+    heading-tokens: (style-tokens.text-xs, style-tokens.font-bold),
+    lines-before: 0,
+    lines-after: 0,
+    line-feed: 1,
   ),
 )
 
-#let font-settings = (
-  default: (..font-settings-presets.serif, color: color-presets.gray1.at(8)),
-  heading: font-settings-presets.heading,
-  footnote: font-settings-presets.serif,
-  small: font-settings-presets.serif,
-  monospace: font-settings-presets.monospace,
-  strong: font-settings-presets.sans,
+#let slide-page-tokens = (
+  section-title-style-tokens: (
+    style-tokens.text-justify,
+    style-tokens.text-base,
+    style-tokens.font-medium,
+  ),
+  bibliography-style-tokens: (style-tokens.text-justify, style-tokens.text-xs),
+  nombre-current-style-tokens: (
+    style-tokens.itext-sm,
+    style-tokens.text-r7y1-600,
+    style-tokens.font-medium,
+  ),
+  nombre-total-style-tokens: (
+    style-tokens.itext-xs,
+    style-tokens.text-r7y1-400,
+    style-tokens.font-medium,
+  ),
+  running-head-item-style-tokens: (
+    style-tokens.border-2,
+    style-tokens.border-r7y1-100,
+    style-tokens.bg-r7y1-0,
+    style-tokens.rounded-2xs,
+    style-tokens.inset-5,
+    style-tokens.text-no-justify,
+    style-tokens.text-2xs,
+    style-tokens.text-r7y1-700,
+    style-tokens.font-medium,
+  ),
+  running-head-current-item-style-tokens: (
+    style-tokens.border-2,
+    style-tokens.border-r7y1-200,
+    style-tokens.bg-r7y1-200,
+    style-tokens.rounded-2xs,
+    style-tokens.inset-5,
+    style-tokens.text-no-justify,
+    style-tokens.text-2xs,
+    style-tokens.text-r7y1-900,
+    style-tokens.font-medium,
+  ),
+  running-head-intersperce-style-tokens: (style-tokens.text-xs, style-tokens.text-r7y1-100),
 )

@@ -1,9 +1,3 @@
-#import "../presets/slide.typ": type-settings, font-settings
-#import "../mgn901-paper/font-style.typ": font-style
-#import "../mgn901-paper/type-style.typ": type-style
-
-#let line-spacing = type-settings.default.line-height - type-settings.default.font-size
-
 #let to-inset(inset) = {
   if type(inset) == length {
     (top: inset, right: inset, bottom: inset, left: inset)
@@ -79,7 +73,7 @@
 }
 
 #let spiro-rounded-rect-vertices(
-  radius: line-spacing * 2,
+  radius: 0em,
   offset-x: 0pt,
   offset-y: 0pt,
   direction-x: 1,
@@ -105,24 +99,20 @@
 #let spiro-rounded-corner-components(
   vertices: (),
 ) = {
-  return (
-    curve.cubic(vertices.at(1), vertices.at(2), vertices.at(3)),
-    curve.cubic(vertices.at(4), vertices.at(5), vertices.at(6)),
-    curve.cubic(vertices.at(7), vertices.at(8), vertices.at(9)),
-    curve.cubic(vertices.at(10), vertices.at(11), vertices.at(12)),
-  )
+  vertices.slice(1).chunks(3).map(chunk => curve.cubic(chunk.at(0), chunk.at(1), chunk.at(2)))
 }
 
 #let spiro-rounded-rect-components(
-  width: line-spacing * 4,
-  height: line-spacing * 4,
-  radius: line-spacing * 2,
+  width: 1em,
+  height: 1em,
+  radius: 0em,
+  outset: (top: 0em, left: 0em, right: 0em, bottom: 0em),
 ) = {
   let vertices = spiro-rounded-rect-vertices.with(radius: radius)
-  let tl = vertices(offset-x: 0em, offset-y: 0em, direction-x: 1, direction-y: 1)
-  let bl = vertices(offset-x: 0em, offset-y: height, direction-x: 1, direction-y: -1).rev()
-  let br = vertices(offset-x: width, offset-y: height, direction-x: -1, direction-y: -1)
-  let tr = vertices(offset-x: width, offset-y: 0em, direction-x: -1, direction-y: 1).rev()
+  let tl = vertices(offset-x: -outset.left, offset-y: -outset.top, direction-x: 1, direction-y: 1)
+  let bl = vertices(offset-x: -outset.left, offset-y: height + outset.bottom, direction-x: 1, direction-y: -1).rev()
+  let br = vertices(offset-x: width + outset.right, offset-y: height + outset.bottom, direction-x: -1, direction-y: -1)
+  let tr = vertices(offset-x: width + outset.right, offset-y: -outset.top, direction-x: -1, direction-y: 1).rev()
 
   return (
     curve.move(tl.at(0)),
@@ -142,64 +132,45 @@
   height: auto,
   fill: none,
   stroke: auto,
-  radius: line-spacing * 2,
-  inset: line-spacing * 1.5,
+  radius: 0em,
+  inset: (:),
   outset: (:),
   body,
 ) = {
+  let wrappedBody = rect(
+    width: width,
+    height: height,
+    inset: inset,
+    outset: outset,
+    fill: none,
+    stroke: none,
+    radius: (:),
+    body,
+  )
+
   layout(size => {
-    let measurement = measure(
-      body,
-      width: size.width - to-inset(inset).left - to-inset(inset).right,
-      height: size.height,
-    )
+    let calculated-size = measure(wrappedBody, width: size.width, height: size.height)
 
-    let calculated-width = if width == auto {
-      (
-        measurement.width
-          + to-inset(inset).left
-          + to-inset(inset).right
-          + to-inset(outset).left
-          + to-inset(outset).right
-          + .0000000000001pt
-      )
-    } else {
-      width + to-inset(outset).left + to-inset(outset).right + .0000000000001pt
-    }
-    let calculated-height = if height == auto {
-      (
-        measurement.height
-          + to-inset(inset).top
-          + to-inset(inset).bottom
-          + to-inset(outset).top
-          + to-inset(outset).bottom
-          + .0000000000001pt
-      )
-    } else {
-      height + to-inset(outset).top + to-inset(outset).bottom + .0000000000001pt
-    }
-
-    block[
-      #place(
-        alignment.top + alignment.left,
-        dx: to-inset(outset).left * -1,
-        dy: to-inset(outset).top * -1,
-        curve(
-          fill: fill,
-          stroke: stroke,
-          ..spiro-rounded-rect-components(
-            width: calculated-width,
-            height: calculated-height,
-            radius: radius,
-          ),
+    rect(
+      width: calculated-size.width,
+      height: calculated-size.height,
+      inset: 0em,
+      outset: 0em,
+      fill: none,
+      stroke: none,
+      radius: (:),
+    )[
+      #place(curve(
+        fill: fill,
+        stroke: stroke,
+        ..spiro-rounded-rect-components(
+          width: calculated-size.width,
+          height: calculated-size.height,
+          radius: radius,
+          outset: to-inset(outset),
         ),
-      )
-      #block(
-        width: calculated-width - to-inset(outset).left - to-inset(outset).right,
-        height: calculated-height - to-inset(outset).top - to-inset(outset).bottom,
-        inset: inset,
-        body,
-      )
+      ))
+      #wrappedBody
     ]
   })
 }

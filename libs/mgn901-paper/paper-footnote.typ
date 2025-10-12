@@ -1,19 +1,11 @@
-#import "../presets/thesis.typ": font-settings, type-settings
-#import "mpl.typ": create-mpl
 #import "utils.typ": q
-
-#let mpl = create-mpl(font-settings: font-settings, type-settings: type-settings)
 
 #let paper-footnote(
   body,
-  default-type-settings: type-settings.default,
-  footnote-type-settings: type-settings.footnote,
-  type-footnote: mpl.type-footnote,
-  font-footnote: mpl.font-footnote,
+  footnote-clearance: q(28 - 16 + 16 / 2),
+  footnote-gap: q(20 - 14),
+  footnote-styler: it => it,
 ) = {
-  let footnote-line-spacing = footnote-type-settings.line-height - footnote-type-settings.font-size
-  let default-line-spacing = default-type-settings.line-height - default-type-settings.font-size
-
   show footnote: set super(baseline: 0em, size: 1em)
 
   set footnote(
@@ -24,22 +16,18 @@
 
   set footnote.entry(
     separator: line(length: 100% / 3, stroke: (thickness: q(0.5))),
-    gap: footnote-line-spacing,
-    clearance: default-line-spacing + default-type-settings.font-size / 2,
+    clearance: footnote-clearance,
+    gap: footnote-gap,
   )
 
-  show footnote.entry: it => {
-    type-footnote(
-      font-footnote(
-        grid(
-          columns: (2em, 1fr),
-          rows: 1,
-          gutter: 0em,
-          numbering(it.note.numbering, ..counter(footnote).at(it.note.location())), it.note.body,
-        ),
-      ),
+  show footnote.entry: it => footnote-styler[
+    #grid(
+      columns: (2em, 1fr),
+      rows: 1,
+      gutter: 0em,
+      numbering(it.note.numbering, ..counter(footnote).at(it.note.location())), it.note.body,
     )
-  }
+  ]
 
   body
 }
