@@ -2,7 +2,7 @@
 #import "@preview/roremu:0.1.0": roremu
 #import "libs/mgn901-paper/paper.typ": paper
 #import "libs/mgn901-paper/style.typ": style
-#import "libs/presets/mgn901.typ": heading-token-params, page-settings, style-tokens as s
+#import "libs/presets/mgn901-typos.typ": heading-token-params, page-settings, style-tokens as s
 #import "libs/thesis-abstract.typ": thesis-abstract
 #import "libs/article-frontmatter.typ": article-frontmatter
 
