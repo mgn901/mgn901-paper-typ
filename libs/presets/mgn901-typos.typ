@@ -1,6 +1,12 @@
 #import "../mgn901-paper/utils.typ": q
 #import "common.typ": color-style-tokens
 
+#let interFontCovers = regex(
+  "[ -~ -¬®-ňŊ-ǃǅ-ɔɖ-ɨɪ-ɻɾ-ʄʆ-ʐʒ-ʤʦ-ʻʽ-˭˯-̄̆-̛̣̦̊̌̏̓̕-̷̨̬-̸͂-̓͆-ͯʹ-Ͷͺ-Ϳ΄-ΊΌΎ-ΡΣ-ϗϜ-ϝϰ-϶Ϲ-Ϻϼ-ѹҀ-ҝҠ-ӿԯ฿ᴀᴍᴛᵃᵇ-ᵉᵍᵏ-ᵐᵒᵖ-ᵘᵛᵢ-ᵥᶜᶠᶻᶿ-᷵᷼-ẛẝ-ἕἘ-Ἕἠ-ὅὈ-Ὅὐ-ὗὙὛὝὟ-ώᾀ-ᾴᾶ-ῄῆ-ΐῖ-Ί῝-`ῲ-ῴῶ-῾ -​‐-‧ -⁕⁗ ⁰-ⁱ⁴-₎ₐ-ₜ₠-₯₱-₵₸-₺₼-⃀⃛-⃞⃨⃰℀-℁℃℅-℆℉ℓ№-℗℞-™K-Å℮Ⅎ℻⅍⅐-ⅿↃ-ↆ↉←-↙↩-↪↰-↱↳-↵↺-↻⇐⇒⇔⇞-⇟⇤-⇥⇧⇪∂∅∏∑-−√∞∫∶≈≠≤-≥⊕-⊘⌃-⌅⌘⌥-⌧⌫⎀⎇⎋⏎-⏏␣①-⑨Ⓐ-Ⓩ⓪■-▢▪▲-△▷►▼-▽◀-◁◆-◇◊-○●◦◯☀★-☆☼♡♥♪-♫⚠✓✗❖❤⟯⟵-⟺⤓⨸⬆⬒-⬓⬜⬤ⱼⱿⷿ⸘ꚟꟿ꤮----------------------]",
+)
+
+#let typosFontCovers = "[!\"'(),./0123456789:;?\[\]`｡｢｣､･－、。，．・：；？！ー―／〜‖…‘’“”（）〔〕［］「」〈〉《》『』【】＋−×÷＝′″￥＄￠￡％＃＆＊＠○●◎◇◆□■△▲▽▼※〒→←↑↓０１２３４５６７８９\p{scx:Hiragana}\p{scx:Katakana}]"
+
 #let page-settings = (
   width: 210mm,
   height: 297mm,
@@ -59,107 +65,113 @@
   outset-40: (outset: q(20)),
   font-sans: (
     font-family: (
-      latin: ("Inter",),
-      cjk: (
-        (
-          name: "TyposAlmighty56 Std",
-          covers: regex(
-            "[!\"'(),./0123456789:;?\[\]`｡｢｣､･－、。，．・：；？！ー―／〜‖…‘’“”（）〔〕［］「」〈〉《》『』【】＋−×÷＝′″￥＄￠￡％＃＆＊＠○●◎◇◆□■△▲▽▼※〒→←↑↓０１２３４５６７８９\p{scx:Hiragana}\p{scx:Katakana}]",
-          ),
-        ),
-        // "A P-OTF UD Shin Go Pr6N L",
-        "Source Han Sans JP",
+      (
+        name: "Inter",
+        covers: interFontCovers,
       ),
+      (
+        name: "TyposAlmighty56 Std",
+        covers: regex(
+          "[!\"'(),./0123456789:;?\[\]`｡｢｣､･－、。，．・：；？！ー―／〜‖…‘’“”（）〔〕［］「」〈〉《》『』【】＋−×÷＝′″￥＄￠￡％＃＆＊＠○●◎◇◆□■△▲▽▼※〒→←↑↓０１２３４５６７８９\p{scx:Hiragana}\p{scx:Katakana}]",
+        ),
+      ),
+      // "A P-OTF UD Shin Go Pr6N L",
+      "Source Han Sans JP",
     ),
     font-features: (ss01: 1, ss02: 1, ss03: 1, zero: 1, tnum: 1),
   ),
   font-serif: (
     font-family: (
-      latin: ("Inter",),
-      cjk: (
-        (
-          name: "TyposAlmighty56 Std",
-          covers: regex(
-            "[!\"'(),./0123456789:;?\[\]`｡｢｣､･－、。，．・：；？！ー―／〜‖…‘’“”（）〔〕［］「」〈〉《》『』【】＋−×÷＝′″￥＄￠￡％＃＆＊＠○●◎◇◆□■△▲▽▼※〒→←↑↓０１２３４５６７８９\p{scx:Hiragana}\p{scx:Katakana}]",
-          ),
-        ),
-        // "A P-OTF UD Shin Go Pr6N L",
-        "Source Han Sans JP",
+      (
+        name: "Inter",
+        covers: interFontCovers,
       ),
+      (
+        name: "TyposAlmighty56 Std",
+        covers: regex(
+          "[!\"'(),./0123456789:;?\[\]`｡｢｣､･－、。，．・：；？！ー―／〜‖…‘’“”（）〔〕［］「」〈〉《》『』【】＋−×÷＝′″￥＄￠￡％＃＆＊＠○●◎◇◆□■△▲▽▼※〒→←↑↓０１２３４５６７８９\p{scx:Hiragana}\p{scx:Katakana}]",
+        ),
+      ),
+      // "A P-OTF UD Shin Go Pr6N L",
+      "Source Han Sans JP",
     ),
     font-features: (ss01: 1, ss02: 1, ss03: 1, zero: 1, tnum: 1),
   ),
   font-mono: (
     font-family: (
-      latin: ("Roboto Mono",),
-      cjk: ("Source Han Sans JP",),
+      "Roboto Mono",
+      "Source Han Sans JP",
     ),
     font-features: (:),
   ),
   font-normal: (
     font-family: (
-      latin: ("Inter",),
-      cjk: (
-        (
-          name: "TyposAlmighty55 Std",
-          covers: regex(
-            "[!\"'(),./0123456789:;?\[\]`｡｢｣､･－、。，．・：；？！ー―／〜‖…‘’“”（）〔〕［］「」〈〉《》『』【】＋−×÷＝′″￥＄￠￡％＃＆＊＠○●◎◇◆□■△▲▽▼※〒→←↑↓０１２３４５６７８９\p{scx:Hiragana}\p{scx:Katakana}]",
-          ),
-        ),
-        // "A P-OTF UD Shin Go Pr6N L",
-        "Source Han Sans JP",
+      (
+        name: "Inter",
+        covers: interFontCovers,
       ),
+      (
+        name: "TyposAlmighty55 Std",
+        covers: regex(
+          "[!\"'(),./0123456789:;?\[\]`｡｢｣､･－、。，．・：；？！ー―／〜‖…‘’“”（）〔〕［］「」〈〉《》『』【】＋−×÷＝′″￥＄￠￡％＃＆＊＠○●◎◇◆□■△▲▽▼※〒→←↑↓０１２３４５６７８９\p{scx:Hiragana}\p{scx:Katakana}]",
+        ),
+      ),
+      // "A P-OTF UD Shin Go Pr6N L",
+      "Source Han Sans JP",
     ),
     font-features: (ss01: 1, ss02: 1, ss03: 1, zero: 1, tnum: 1),
     font-weight: 300,
   ),
   font-medium: (
     font-family: (
-      latin: ("Inter",),
-      cjk: (
-        (
-          name: "TyposAlmighty78 Std",
-          covers: regex(
-            "[!\"'(),./0123456789:;?\[\]`｡｢｣､･－、。，．・：；？！ー―／〜‖…‘’“”（）〔〕［］「」〈〉《》『』【】＋−×÷＝′″￥＄￠￡％＃＆＊＠○●◎◇◆□■△▲▽▼※〒→←↑↓０１２３４５６７８９\p{scx:Hiragana}\p{scx:Katakana}]",
-          ),
-        ),
-        // "A P-OTF UD Shin Go Pr6N R",
-        "Source Han Sans JP",
+      (
+        name: "Inter",
+        covers: interFontCovers,
       ),
+      (
+        name: "TyposAlmighty78 Std",
+        covers: regex(
+          "[!\"'(),./0123456789:;?\[\]`｡｢｣､･－、。，．・：；？！ー―／〜‖…‘’“”（）〔〕［］「」〈〉《》『』【】＋−×÷＝′″￥＄￠￡％＃＆＊＠○●◎◇◆□■△▲▽▼※〒→←↑↓０１２３４５６７８９\p{scx:Hiragana}\p{scx:Katakana}]",
+        ),
+      ),
+      // "A P-OTF UD Shin Go Pr6N R",
+      "Source Han Sans JP",
     ),
     font-features: (ss01: 1, ss02: 1, ss03: 1, zero: 1, tnum: 1),
     font-weight: 400,
   ),
   font-semibold: (
     font-family: (
-      latin: ("Inter",),
-      cjk: (
-        (
-          name: "TyposAlmighty1010 Std",
-          covers: regex(
-            "[!\"'(),./0123456789:;?\[\]`｡｢｣､･－、。，．・：；？！ー―／〜‖…‘’“”（）〔〕［］「」〈〉《》『』【】＋−×÷＝′″￥＄￠￡％＃＆＊＠○●◎◇◆□■△▲▽▼※〒→←↑↓０１２３４５６７８９\p{scx:Hiragana}\p{scx:Katakana}]",
-          ),
-        ),
-        // "A P-OTF UD Shin Go Pr6N DB",
-        "Source Han Sans JP",
+      (
+        name: "Inter",
+        covers: interFontCovers,
       ),
+      (
+        name: "TyposAlmighty1010 Std",
+        covers: regex(
+          "[!\"'(),./0123456789:;?\[\]`｡｢｣､･－、。，．・：；？！ー―／〜‖…‘’“”（）〔〕［］「」〈〉《》『』【】＋−×÷＝′″￥＄￠￡％＃＆＊＠○●◎◇◆□■△▲▽▼※〒→←↑↓０１２３４５６７８９\p{scx:Hiragana}\p{scx:Katakana}]",
+        ),
+      ),
+      // "A P-OTF UD Shin Go Pr6N DB",
+      "Source Han Sans JP",
     ),
     font-features: (ss01: 1, ss02: 1, ss03: 1, zero: 1, tnum: 1),
     font-weight: 500,
   ),
   font-bold: (
     font-family: (
-      latin: ("Inter",),
-      cjk: (
-        (
-          name: "TyposAlmighty1414 Std",
-          covers: regex(
-            "[!\"'(),./0123456789:;?\[\]`｡｢｣､･－、。，．・：；？！ー―／〜‖…‘’“”（）〔〕［］「」〈〉《》『』【】＋−×÷＝′″￥＄￠￡％＃＆＊＠○●◎◇◆□■△▲▽▼※〒→←↑↓０１２３４５６７８９\p{scx:Hiragana}\p{scx:Katakana}]",
-          ),
-        ),
-        // "A P-OTF UD Shin Go Pr6N B",
-        "Source Han Sans JP",
+      (
+        name: "Inter",
+        covers: interFontCovers,
       ),
+      (
+        name: "TyposAlmighty1414 Std",
+        covers: regex(
+          "[!\"'(),./0123456789:;?\[\]`｡｢｣､･－、。，．・：；？！ー―／〜‖…‘’“”（）〔〕［］「」〈〉《》『』【】＋−×÷＝′″￥＄￠￡％＃＆＊＠○●◎◇◆□■△▲▽▼※〒→←↑↓０１２３４５６７８９\p{scx:Hiragana}\p{scx:Katakana}]",
+        ),
+      ),
+      // "A P-OTF UD Shin Go Pr6N B",
+      "Source Han Sans JP",
     ),
     font-features: (ss01: 1, ss02: 1, ss03: 1, zero: 1, tnum: 1),
     font-weight: 700,

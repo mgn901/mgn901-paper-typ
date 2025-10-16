@@ -1,6 +1,10 @@
 #import "../mgn901-paper/utils.typ": q
 #import "common.typ": color-style-tokens
 
+#let interFontCovers = regex(
+  "[ -~ -¬®-ňŊ-ǃǅ-ɔɖ-ɨɪ-ɻɾ-ʄʆ-ʐʒ-ʤʦ-ʻʽ-˭˯-̄̆-̛̣̦̊̌̏̓̕-̷̨̬-̸͂-̓͆-ͯʹ-Ͷͺ-Ϳ΄-ΊΌΎ-ΡΣ-ϗϜ-ϝϰ-϶Ϲ-Ϻϼ-ѹҀ-ҝҠ-ӿԯ฿ᴀᴍᴛᵃᵇ-ᵉᵍᵏ-ᵐᵒᵖ-ᵘᵛᵢ-ᵥᶜᶠᶻᶿ-᷵᷼-ẛẝ-ἕἘ-Ἕἠ-ὅὈ-Ὅὐ-ὗὙὛὝὟ-ώᾀ-ᾴᾶ-ῄῆ-ΐῖ-Ί῝-`ῲ-ῴῶ-῾ -​‐-‧ -⁕⁗ ⁰-ⁱ⁴-₎ₐ-ₜ₠-₯₱-₵₸-₺₼-⃀⃛-⃞⃨⃰℀-℁℃℅-℆℉ℓ№-℗℞-™K-Å℮Ⅎ℻⅍⅐-ⅿↃ-ↆ↉←-↙↩-↪↰-↱↳-↵↺-↻⇐⇒⇔⇞-⇟⇤-⇥⇧⇪∂∅∏∑-−√∞∫∶≈≠≤-≥⊕-⊘⌃-⌅⌘⌥-⌧⌫⎀⎇⎋⏎-⏏␣①-⑨Ⓐ-Ⓩ⓪■-▢▪▲-△▷►▼-▽◀-◁◆-◇◊-○●◦◯☀★-☆☼♡♥♪-♫⚠✓✗❖❤⟯⟵-⟺⤓⨸⬆⬒-⬓⬜⬤ⱼⱿⷿ⸘ꚟꟿ꤮----------------------]",
+)
+
 #let page-settings = (
   width: 210mm,
   height: 297mm,
@@ -59,71 +63,74 @@
   outset-40: (outset: q(20)),
   font-sans: (
     font-family: (
-      latin: ("Inter",),
-      cjk: (
-        "A P-OTF UD Shin Go Pr6N L",
-        "Source Han Sans JP",
+      (
+        name: "Inter",
+        covers: interFontCovers,
       ),
+      "A P-OTF UD Shin Go Pr6N L",
+      "Source Han Sans JP",
     ),
     font-features: (ss01: 1, ss02: 1, ss03: 1, zero: 1, tnum: 1),
   ),
   font-serif: (
     font-family: (
-      latin: ("Inter",),
-      cjk: (
-        "A P-OTF UD Shin Go Pr6N L",
-        "Source Han Sans JP",
+      (
+        name: "Inter",
+        covers: interFontCovers,
       ),
+      "A P-OTF UD Shin Go Pr6N L",
+      "Source Han Sans JP",
     ),
     font-features: (ss01: 1, ss02: 1, ss03: 1, zero: 1, tnum: 1),
   ),
   font-mono: (
-    font-family: (
-      latin: ("Roboto Mono",),
-      cjk: ("Source Han Sans JP",),
-    ),
+    font-family: ("Roboto Mono", "Source Han Sans JP"),
     font-features: (:),
   ),
   font-normal: (
     font-family: (
-      latin: ("Inter",),
-      cjk: (
-        "A P-OTF UD Shin Go Pr6N L",
-        "Source Han Sans JP",
+      (
+        name: "Inter",
+        covers: interFontCovers,
       ),
+      "A P-OTF UD Shin Go Pr6N L",
+      "Source Han Sans JP",
     ),
     font-features: (ss01: 1, ss02: 1, ss03: 1, zero: 1, tnum: 1),
     font-weight: 300,
   ),
   font-medium: (
     font-family: (
-      latin: ("Inter",),
-      cjk: (
-        "A P-OTF UD Shin Go Pr6N R",
-        "Source Han Sans JP",
+      (
+        name: "Inter",
+        covers: interFontCovers,
       ),
+      "A P-OTF UD Shin Go Pr6N R",
+      "Source Han Sans JP",
     ),
     font-features: (ss01: 1, ss02: 1, ss03: 1, zero: 1, tnum: 1),
     font-weight: 400,
   ),
   font-semibold: (
     font-family: (
-      latin: ("Inter",),
-      cjk: (
-        "A P-OTF UD Shin Go Pr6N DB",
-        "Source Han Sans JP",
+      (
+        name: "Inter",
+        covers: interFontCovers,
       ),
+      "A P-OTF UD Shin Go Pr6N DB",
+      "Source Han Sans JP",
     ),
     font-features: (ss01: 1, ss02: 1, ss03: 1, zero: 1, tnum: 1),
     font-weight: 600,
   ),
   font-bold: (
     font-family: (
-      latin: ("Inter",),
-      cjk: (
-        "A P-OTF UD Shin Go Pr6N B",
-        "Source Han Sans JP",
+      (
+        name: "Inter",
+        covers: interFontCovers,
       ),
+      "A P-OTF UD Shin Go Pr6N B",
+      "Source Han Sans JP",
     ),
     font-features: (ss01: 1, ss02: 1, ss03: 1, zero: 1, tnum: 1),
     font-weight: 700,

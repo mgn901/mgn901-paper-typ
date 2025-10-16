@@ -200,7 +200,7 @@
   font-family: (value, style-entries, it) => {
     set text(
       ..default-text-arguments,
-      font: (..value.latin.map(item => (name: item, covers: "latin-in-cjk")), ..value.cjk),
+      font: value,
     )
     it
   },
